@@ -757,7 +757,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
    ============================================================ */
 .services {
   background: var(--c-navy);
-  padding: clamp(60px, 8vw, 100px) var(--pad);
+  padding: clamp(60px, 8vw, 100px) var(--pad-x);
 }
 .services-inner { max-width: 1200px; margin: 0 auto; }
 .services-header { margin-bottom: clamp(40px, 6vw, 64px); }
@@ -828,7 +828,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   padding: clamp(60px, 8vw, 100px) 0 0;
 }
 .careers-head {
-  padding: 0 var(--pad) clamp(40px, 6vw, 64px);
+  padding: 0 var(--pad-x) clamp(40px, 6vw, 64px);
   max-width: 680px;
 }
 .careers-heading {
