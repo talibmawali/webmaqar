@@ -719,6 +719,165 @@
   }
 
   /* ------------------------------------------------------------
+     8.5) Career application modal — Resume / Internship / Collaboration
+     ------------------------------------------------------------ */
+  const CAREER_FORMS = {
+    resume: {
+      eyebrow: 'Careers — Resume Submission',
+      title: 'Send us your resume',
+      sub: 'We review every application personally. Add a portfolio link if you have one.',
+      subject: 'Resume Submission',
+      fields: [
+        { name: 'name',       label: 'Full Name',                 type: 'text',     required: true },
+        { name: 'email',      label: 'Email',                     type: 'email',    required: true },
+        { name: 'phone',      label: 'Phone',                     type: 'tel' },
+        { name: 'role',       label: 'Role you are applying for', type: 'text' },
+        { name: 'experience', label: 'Years of experience',       type: 'text' },
+        { name: 'portfolio',  label: 'Portfolio link',            type: 'url' },
+        { name: 'message',    label: 'Cover note',                type: 'textarea', full: true },
+        { name: 'file',       label: 'Attach CV (PDF/DOC)',       type: 'file', accept: '.pdf,.doc,.docx', full: true },
+      ],
+    },
+    internship: {
+      eyebrow: 'Careers — Internship',
+      title: 'Apply for an internship',
+      sub: 'Open to students and recent graduates. Tell us a little about yourself.',
+      subject: 'Internship Application',
+      fields: [
+        { name: 'name',       label: 'Full Name',           type: 'text',     required: true },
+        { name: 'email',      label: 'Email',               type: 'email',    required: true },
+        { name: 'phone',      label: 'Phone',               type: 'tel' },
+        { name: 'university', label: 'University',          type: 'text',     required: true },
+        { name: 'year',       label: 'Year of study',       type: 'text' },
+        { name: 'discipline', label: 'Discipline / Major',  type: 'text' },
+        { name: 'message',    label: 'Why MAQAR?',          type: 'textarea', full: true },
+        { name: 'file',       label: 'Attach CV / portfolio', type: 'file', accept: '.pdf,.doc,.docx', full: true },
+      ],
+    },
+    collaboration: {
+      eyebrow: 'Careers — Collaboration',
+      title: 'Propose a collaboration',
+      sub: 'Studios, brands, and institutions — pitch a project and we will get back to you.',
+      subject: 'Collaboration Proposal',
+      fields: [
+        { name: 'name',        label: 'Your Name',            type: 'text',  required: true },
+        { name: 'email',       label: 'Email',                type: 'email', required: true },
+        { name: 'company',     label: 'Company / Studio',     type: 'text',  required: true },
+        { name: 'project',     label: 'Project name',         type: 'text' },
+        { name: 'projectType', label: 'Project type',         type: 'text' },
+        { name: 'timeline',    label: 'Timeline',             type: 'text' },
+        { name: 'budget',      label: 'Budget range',         type: 'text' },
+        { name: 'details',     label: 'Project details',      type: 'textarea', required: true, full: true },
+        { name: 'file',        label: 'Attach brief or RFP',  type: 'file', accept: '.pdf,.doc,.docx', full: true },
+      ],
+    },
+  };
+
+  const careerModal     = document.getElementById('careerModal');
+  const careerForm      = document.getElementById('careerForm');
+  const careerEyebrow   = document.getElementById('careerModalEyebrow');
+  const careerTitle     = document.getElementById('careerModalTitle');
+  const careerSub       = document.getElementById('careerModalSub');
+  const careerStatus    = document.getElementById('careerModalStatus');
+  const careerBackdrop  = document.getElementById('careerModalBackdrop');
+  const careerCloseBtn  = document.getElementById('careerModalClose');
+
+  if (careerModal && careerForm) {
+    let currentType = null;
+
+    const renderForm = (type) => {
+      const cfg = CAREER_FORMS[type];
+      careerEyebrow.textContent = cfg.eyebrow;
+      careerTitle.textContent   = cfg.title;
+      careerSub.textContent     = cfg.sub;
+      careerStatus.textContent  = '';
+      careerForm.innerHTML = cfg.fields.map(f => {
+        const id = `cf_${type}_${f.name}`;
+        const required = f.required ? 'required' : '';
+        const cls = `career-field${f.full ? ' career-field--full' : ''}`;
+        if (f.type === 'textarea') {
+          return `<div class="${cls}"><label for="${id}">${f.label}${f.required ? ' *' : ''}</label>` +
+                 `<textarea id="${id}" name="${f.name}" rows="4" ${required}></textarea></div>`;
+        }
+        if (f.type === 'file') {
+          return `<div class="${cls}"><label for="${id}">${f.label}</label>` +
+                 `<input id="${id}" name="${f.name}" type="file" accept="${f.accept || ''}"></div>`;
+        }
+        return `<div class="${cls}"><label for="${id}">${f.label}${f.required ? ' *' : ''}</label>` +
+               `<input id="${id}" name="${f.name}" type="${f.type}" ${required}></div>`;
+      }).join('') +
+      `<button type="submit" class="career-submit">Submit application</button>`;
+    };
+
+    const openCareer = (type) => {
+      if (!CAREER_FORMS[type]) return;
+      currentType = type;
+      renderForm(type);
+      careerModal.classList.add('is-open');
+      careerModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+    const closeCareer = () => {
+      careerModal.classList.remove('is-open');
+      careerModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      currentType = null;
+    };
+
+    document.querySelectorAll('[data-career-type]').forEach(btn => {
+      btn.addEventListener('click', () => openCareer(btn.dataset.careerType));
+    });
+    careerCloseBtn.addEventListener('click', closeCareer);
+    careerBackdrop.addEventListener('click', closeCareer);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && careerModal.classList.contains('is-open')) closeCareer();
+    });
+
+    careerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!currentType) return;
+      const cfg = CAREER_FORMS[currentType];
+      const data = new FormData(careerForm);
+
+      // Required-field check
+      for (const f of cfg.fields) {
+        if (!f.required) continue;
+        const v = (data.get(f.name) || '').toString().trim();
+        if (!v) {
+          careerStatus.textContent = `Please complete: ${f.label}`;
+          careerStatus.style.color = 'var(--c-rust)';
+          return;
+        }
+      }
+
+      // Build the email body
+      const lines = [];
+      let attachmentName = '';
+      for (const f of cfg.fields) {
+        const val = data.get(f.name);
+        if (f.type === 'file') {
+          if (val && val.name) attachmentName = val.name;
+        } else {
+          const s = (val || '').toString().trim();
+          if (s) lines.push(`${f.label}: ${s}`);
+        }
+      }
+      if (attachmentName) {
+        lines.push('', `Attachment selected: ${attachmentName}`,
+                   '(Please attach the file in your email client before sending.)');
+      }
+      const subject = encodeURIComponent(cfg.subject);
+      const body    = encodeURIComponent(lines.join('\n'));
+      window.location.href = `mailto:Maqarstudio@gmail.com?subject=${subject}&body=${body}`;
+
+      careerStatus.style.color = 'var(--c-ink-soft)';
+      careerStatus.textContent = attachmentName
+        ? `Your email is opening — please attach "${attachmentName}" before sending.`
+        : 'Your email is opening — review and send to complete your submission.';
+    });
+  }
+
+  /* ------------------------------------------------------------
      9) Smooth-scroll for in-page nav links
      ------------------------------------------------------------ */
   document.querySelectorAll('[data-link]').forEach(a => {
