@@ -52,21 +52,25 @@
     };
 
     const stopIntroAudio = (fast = false) => {
-      fadeAudioTo(0, fast ? 300 : 900);
+      fadeAudioTo(0, fast ? 400 : 1200);
     };
 
-    // Fade out when video ends
+    // Video ends → keep music playing, just mark ended state
     const markEnded = () => {
       intro.classList.add('is-ended');
-      stopIntroAudio();
+      // music continues — it will fade when user reaches the Work section
     };
 
-    // Stop audio when user scrolls past the intro section
-    const introAudioScroll = () => {
-      if (!intro.classList.contains('is-ended')) return;
-      if (window.scrollY > intro.offsetHeight * 0.5) stopIntroAudio(true);
-    };
-    window.addEventListener('scroll', introAudioScroll, { passive: true });
+    // Fade music out when the Work section enters view (scrolled past About)
+    const workSection = document.getElementById('work');
+    if (workSection && 'IntersectionObserver' in window) {
+      const workIO = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) stopIntroAudio();
+        }
+      }, { threshold: 0.15 });
+      workIO.observe(workSection);
+    }
 
     const playFromStart = () => {
       intro.classList.remove('is-ended');
