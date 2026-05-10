@@ -878,12 +878,13 @@
   }
 
   /* ------------------------------------------------------------
-     8.6) About-section music — fades in when section enters view,
-          fades out when it leaves. Pauses when tab is hidden.
+     8.6) Music zone — plays from About through the last team member
+          (CFO Ayyan). Fades in on entry, out on exit, pauses on hide.
      ------------------------------------------------------------ */
   const aboutMusic = document.getElementById('aboutMusic');
-  const aboutSection = document.getElementById('about');
-  if (aboutMusic && aboutSection && !prefersReduced && 'IntersectionObserver' in window) {
+  const musicZoneIds = ['about', 'quote-sultan', 'quote', 'quote-coo', 'quote-exec3', 'quote-cfo'];
+  const musicZoneEls = musicZoneIds.map(id => document.getElementById(id)).filter(Boolean);
+  if (aboutMusic && musicZoneEls.length && !prefersReduced && 'IntersectionObserver' in window) {
     const TARGET_VOL = 0.45;
     aboutMusic.volume = 0;
 
@@ -906,24 +907,24 @@
       if (p && typeof p.catch === 'function') p.catch(() => { /* autoplay blocked */ });
     };
 
-    const aboutIO = new IntersectionObserver((entries) => {
+    const insideZone = new Set();
+    const updateMusic = () => {
+      if (insideZone.size > 0) { tryPlay(); fadeTo(TARGET_VOL, 1200); }
+      else { fadeTo(0, 800); }
+    };
+
+    const zoneIO = new IntersectionObserver((entries) => {
       for (const e of entries) {
-        if (e.isIntersecting) {
-          tryPlay();
-          fadeTo(TARGET_VOL, 1200);
-        } else {
-          fadeTo(0, 800);
-        }
+        if (e.isIntersecting) insideZone.add(e.target);
+        else insideZone.delete(e.target);
       }
-    }, { threshold: 0.25 });
-    aboutIO.observe(aboutSection);
+      updateMusic();
+    }, { threshold: 0.15 });
+    musicZoneEls.forEach(el => zoneIO.observe(el));
 
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) { try { aboutMusic.pause(); } catch (_) {} }
-      else if (aboutSection.getBoundingClientRect().top < window.innerHeight * 0.75 &&
-               aboutSection.getBoundingClientRect().bottom > 0) {
-        tryPlay();
-      }
+      else if (insideZone.size > 0) tryPlay();
     });
   }
 
