@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="MAQAR Studio — architecture, digital and graphic design rooted in Omani heritage and modern craft." />
+<title>MAQAR Studio — Space. Craft. Vision.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<div class="cursor" aria-hidden="true">
+  <div class="cursor-diamond"></div>
+</div>
+
+<header class="nav" id="nav">
+  <a href="#intro" class="nav-mark" aria-label="MAQAR Studio — home">
+    <img src="assets/maqar-logo.png" alt="Architectural MAQAR Studio" />
+  </a>
+  <nav class="nav-links" id="navLinks">
+    <a href="#about" data-link>About</a>
+    <a href="#work" data-link>Work</a>
+    <a href="#services" data-link>Services</a>
+    <a href="#achievements" data-link>Achievements</a>
+    <a href="#careers" data-link>Careers</a>
+    <a href="#contact" data-link>Contact</a>
+  </nav>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="#about"        data-link data-drawer-link>About</a>
+  <a href="#work"         data-link data-drawer-link>Work</a>
+  <a href="#services"     data-link data-drawer-link>Services</a>
+  <a href="#achievements" data-link data-drawer-link>Achievements</a>
+  <a href="#careers"      data-link data-drawer-link>Careers</a>
+  <a href="#contact"      data-link data-drawer-link>Contact</a>
+</div>
+
+<!-- ============== SECTION 1 — SCROLL-SCRUB INTRO ============== -->
+<section class="intro" id="intro">
+  <div class="intro-sticky">
+    <video class="intro-video" id="introVideo" muted playsinline preload="none" disableRemotePlayback data-src="assets/maqar-intro-scrub.mp4"></video>
+    <div class="intro-veil" aria-hidden="true"></div>
+    <div class="intro-overlay">
+      <div class="intro-mark" data-reveal>
+        <span class="intro-mark-line">Architectural</span>
+        <span class="intro-mark-name">MAQAR Studio</span>
+      </div>
+      <h1 class="intro-tagline" data-reveal>Space. Craft. Vision.</h1>
+      <p class="intro-sub" data-reveal>Building spaces that reflect our values.</p>
+      <div class="intro-scroll-hint" data-reveal>
+        <span></span>
+        <small>Scroll</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION 2 — ABOUT ============== -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-eyebrow reveal">
+      <span class="rule"></span>
+      <span>01 — About the Studio</span>
+    </div>
+    <h2 class="about-heading reveal">
+      A multidisciplinary studio rooted in <em>architecture</em>, expanded into the <em>digital</em> and <em>graphic</em> realm.
+    </h2>
+    <div class="about-body">
+      <p class="reveal">MAQAR is a multidisciplinary design studio rooted in architecture and expanded into the digital and graphic realm. We design spaces, identities, and experiences that are precise, considered, and enduring.</p>
+      <p class="reveal">Our practice blends Omani heritage with contemporary craft — folding tradition into form, the way an origami sheet becomes architecture. Every project is an exercise in balance: between past and present, material and meaning, rigour and warmth.</p>
+    </div>
+    <ul class="about-pillars">
+      <li class="reveal"><strong>Creative</strong><span>&amp; Inspiring</span></li>
+      <li class="reveal"><strong>Collaborative</strong><span>&amp; Supportive</span></li>
+      <li class="reveal"><strong>Expressive</strong><span>&amp; Renewed</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============== SECTION 2.5 — CEO QUOTE ============== -->
+<section class="quote" id="quote">
+  <div class="quote-grid">
+    <figure class="quote-portrait">
+      <img src="assets/ceo-talib.png" alt="Talib Al Mawali, Chief Executive Officer of MAQAR Studio" loading="lazy" />
+    </figure>
+
+    <div class="quote-body">
+      <div class="about-eyebrow reveal" data-on-dark>
+        <span class="rule"></span>
+        <span>02 — A word from the CEO</span>
+      </div>
+
+      <div class="quote-mark reveal">
+        <span class="quote-mark-ar" lang="ar">مـ</span>
+        <span class="quote-mark-en">Maqar Studio</span>
+      </div>
+
+      <p class="quote-tagline reveal">100% Omani Architecture Studio</p>
+
+      <blockquote class="quote-text reveal">
+        <span class="qm qm-open" aria-hidden="true">&ldquo;</span>
+        Architecture is not just about building structures &mdash; it is about
+        shaping identity. At Maqar Studio, every line we draw carries the soul
+        of Oman: its heritage, its land, and the ambition of its people. We
+        build with pride because this is our homeland.
+        <span class="qm qm-close" aria-hidden="true">&rdquo;</span>
+      </blockquote>
+
+      <footer class="quote-attrib reveal">
+        <div class="quote-attrib-name">
+          <strong>Talib Al Mawali</strong>
+          <span>Chief Executive Officer, Maqar Studio</span>
+        </div>
+        <div class="quote-attrib-loc">Muscat, Oman</div>
+      </footer>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION 2.6 — COO QUOTE ============== -->
+<section class="quote quote--flip" id="quote-coo">
+  <div class="quote-grid">
+    <figure class="quote-portrait">
+      <img src="assets/coo-alaiham.png" alt="Alaiham Baawain, Chief Operating Officer of MAQAR Studio" loading="lazy" />
+    </figure>
+
+    <div class="quote-body">
+      <div class="about-eyebrow reveal" data-on-dark>
+        <span class="rule"></span>
+        <span>02 — A word from the COO</span>
+      </div>
+
+      <div class="quote-mark reveal">
+        <span class="quote-mark-ar" lang="ar">مـ</span>
+        <span class="quote-mark-en">Maqar Studio</span>
+      </div>
+
+      <p class="quote-tagline reveal">100% Omani Architecture Studio</p>
+
+      <blockquote class="quote-text reveal">
+        <span class="qm qm-open" aria-hidden="true">&ldquo;</span>
+        True design is born from listening &mdash; to the land, to the community, and to the generations that came before us. At Maqar Studio, we do not simply design spaces; we craft experiences that honor Omani culture while embracing the future. Every project is a conversation between where we come from and where we are going.
+        <span class="qm qm-close" aria-hidden="true">&rdquo;</span>
+      </blockquote>
+
+      <footer class="quote-attrib reveal">
+        <div class="quote-attrib-name">
+          <strong>Alaiham Baawain</strong>
+          <span>Chief Operating Officer, Maqar Studio</span>
+        </div>
+        <div class="quote-attrib-loc">Muscat, Oman</div>
+      </footer>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION 2.7 — EXEC 3 QUOTE ============== -->
+<section class="quote" id="quote-exec3">
+  <div class="quote-grid">
+    <figure class="quote-portrait">
+      <img src="assets/exec3.png" alt="MAQAR Studio executive" loading="lazy" />
+    </figure>
+
+    <div class="quote-body">
+      <div class="about-eyebrow reveal" data-on-dark>
+        <span class="rule"></span>
+        <span>02 — A word from our team</span>
+      </div>
+
+      <div class="quote-mark reveal">
+        <span class="quote-mark-ar" lang="ar">مـ</span>
+        <span class="quote-mark-en">Maqar Studio</span>
+      </div>
+
+      <p class="quote-tagline reveal">100% Omani Architecture Studio</p>
+
+      <blockquote class="quote-text reveal">
+        <span class="qm qm-open" aria-hidden="true">&ldquo;</span>
+        A brand is not what you say it is &mdash; it is what people feel when they walk through your door. At Maqar Studio, our story is written in every facade, every courtyard, and every detail that whispers Oman. Our mission is to make the world see what we have always known: that Omani design is world-class, timeless, and deeply human.
+        <span class="qm qm-close" aria-hidden="true">&rdquo;</span>
+      </blockquote>
+
+      <footer class="quote-attrib reveal">
+        <div class="quote-attrib-name">
+          <strong>Zuhair Al Sawafi</strong>
+          <span>Chief Marketing Officer, Maqar Studio</span>
+        </div>
+        <div class="quote-attrib-loc">Muscat, Oman</div>
+      </footer>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION 2.8 — CFO QUOTE ============== -->
+<section class="quote quote--flip" id="quote-cfo">
+  <div class="quote-grid">
+    <figure class="quote-portrait">
+      <img src="assets/cfo-ayyan.png" alt="Ayyan Al Jardani, Chief Financial Officer of MAQAR Studio" loading="lazy" />
+    </figure>
+
+    <div class="quote-body">
+      <div class="about-eyebrow reveal" data-on-dark>
+        <span class="rule"></span>
+        <span>02 — A word from the CFO</span>
+      </div>
+
+      <div class="quote-mark reveal">
+        <span class="quote-mark-ar" lang="ar">مـ</span>
+        <span class="quote-mark-en">Maqar Studio</span>
+      </div>
+
+      <p class="quote-tagline reveal">100% Omani Architecture Studio</p>
+
+      <blockquote class="quote-text reveal">
+        <span class="qm qm-open" aria-hidden="true">&ldquo;</span>
+        Sustainable growth is not an accident &mdash; it is a discipline. At Maqar Studio, we believe that financial strength is the foundation upon which great architecture is built. When we invest wisely, we give our creators the freedom to dream boldly, and we give Oman buildings that will stand for generations to come.
+        <span class="qm qm-close" aria-hidden="true">&rdquo;</span>
+      </blockquote>
+
+      <footer class="quote-attrib reveal">
+        <div class="quote-attrib-name">
+          <strong>Ayyan Al Jardani</strong>
+          <span>Chief Financial Officer, Maqar Studio</span>
+        </div>
+        <div class="quote-attrib-loc">Muscat, Oman</div>
+      </footer>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION 3 — WORK / PORTFOLIO ============== -->
+<section class="work" id="work">
+  <div class="work-head">
+    <div class="about-eyebrow reveal">
+      <span class="rule"></span>
+      <span>03 — Selected Work</span>
+    </div>
+    <h2 class="work-heading reveal">A practice across three disciplines.</h2>
+    <div class="work-tabs reveal" role="tablist">
+      <button class="tab is-active" data-filter="all" role="tab" aria-selected="true">All</button>
+      <button class="tab" data-filter="architecture" role="tab" aria-selected="false">Architecture</button>
+      <button class="tab" data-filter="interior" role="tab" aria-selected="false">Interior</button>
+      <button class="tab" data-filter="digital" role="tab" aria-selected="false">Digital</button>
+      <button class="tab" data-filter="graphic" role="tab" aria-selected="false">Graphic</button>
+      <span class="tab-indicator" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <div class="work-grid" id="workGrid">
+    <article class="card span-tall" data-cat="architecture" data-magnetic>
+      <div class="card-media" data-tilt style="--g1:#1E2B4B;--g2:#3D240B;">
+        <span class="card-num">A · 01</span>
+      </div>
+      <div class="card-meta">
+        <h3>Residence Al Khuwair</h3>
+        <span>Architecture · Muscat</span>
+      </div>
+    </article>
+
+    <article class="card span-wide" data-cat="digital" data-magnetic>
+      <div class="card-media" data-tilt style="--g1:#BF4A27;--g2:#A3242C;">
+        <span class="card-num">D · 01</span>
+      </div>
+      <div class="card-meta">
+        <h3>Brand Portal UI</h3>
+        <span>Digital · Web Platform</span>
+      </div>
+    </article>
+
+    <article class="card" data-cat="graphic" data-magnetic>
+      <div class="card-media" data-tilt style="--g1:#D5CB71;--g2:#BF4A27;">
+        <span class="card-num">G · 01</span>
+      </div>
+      <div class="card-meta">
+        <h3>Identity System Vol.1</h3>
+        <span>Graphic · Brand</span>
+      </div>
+    </article>
+
+    <article class="card" data-cat="architecture" data-magnetic>
+      <div class="card-media" data-tilt style="--g1:#3D240B;--g2:#1E2B4B;">
+        <span class="card-num">A · 02</span>
+      </div>
+      <div class="card-meta">
+        <h3>The Courtyard House</h3>
+        <span>Architecture · Residential</span>
+      </div>
+    </article>
+
+    <article class="card span-tall" data-cat="digital" data-magnetic>
+      <div class="card-media" data-tilt style="--g1:#71CBD5;--g2:#1E2B4B;">
+        <span class="card-num">D · 02</span>
+      </div>
+      <div class="card-meta">
+        <h3>3D Visualization Suite</h3>
+        <span>Digital · Tooling</span>
+      </div>
+    </article>
+
+    <article class="card" data-cat="graphic" data-magnetic>
+      <div class="card-media" data-tilt style="--g1:#F7EDE9;--g2:#D5CB71;">
+        <span class="card-num">G · 02</span>
+      </div>
+      <div class="card-meta">
+        <h3>Exhibition Catalog</h3>
+        <span>Graphic · Print</span>
+      </div>
+    </article>
+
+    <article class="card span-wide" data-cat="architecture" data-magnetic>
+      <div class="card-media" data-tilt style="--g1:#A3242C;--g2:#3D240B;">
+        <span class="card-num">A · 03</span>
+      </div>
+      <div class="card-meta">
+        <h3>Pavilion 07</h3>
+        <span>Architecture · Cultural</span>
+      </div>
+    </article>
+
+    <article class="card" data-cat="digital" data-magnetic>
+      <div class="card-media" data-tilt style="--g1:#1E2B4B;--g2:#71CBD5;">
+        <span class="card-num">D · 03</span>
+      </div>
+      <div class="card-meta">
+        <h3>Interactive Space</h3>
+        <span>Digital · Installation</span>
+      </div>
+    </article>
+
+    <article class="card" data-cat="graphic" data-magnetic>
+      <div class="card-media" data-tilt style="--g1:#BF4A27;--g2:#F6ED7F;">
+        <span class="card-num">G · 03</span>
+      </div>
+      <div class="card-meta">
+        <h3>Wayfinding System</h3>
+        <span>Graphic · Environmental</span>
+      </div>
+    </article>
+
+    <article class="card span-tall" data-cat="interior" data-magnetic>
+      <div class="card-media" data-tilt style="--g1:#3D240B;--g2:#D5CB71;">
+        <span class="card-num">I · 01</span>
+      </div>
+      <div class="card-meta">
+        <h3>Salalah Apartment</h3>
+        <span>Interior · Residential</span>
+      </div>
+    </article>
+
+    <article class="card" data-cat="interior" data-magnetic>
+      <div class="card-media" data-tilt style="--g1:#F7EDE9;--g2:#3D240B;">
+        <span class="card-num">I · 02</span>
+      </div>
+      <div class="card-meta">
+        <h3>Atelier Workspace</h3>
+        <span>Interior · Studio</span>
+      </div>
+    </article>
+
+    <article class="card span-wide" data-cat="interior" data-magnetic>
+      <div class="card-media" data-tilt style="--g1:#1E2B4B;--g2:#BF4A27;">
+        <span class="card-num">I · 03</span>
+      </div>
+      <div class="card-meta">
+        <h3>Hospitality Suite</h3>
+        <span>Interior · Hospitality</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============== SECTION 4 — SERVICES ============== -->
+<section class="services" id="services">
+  <div class="services-inner">
+
+    <div class="services-header">
+      <div class="about-eyebrow reveal">
+        <span class="rule"></span>
+        <span>04 — Services</span>
+      </div>
+      <h2 class="services-heading reveal">What we <em>build</em>.</h2>
+    </div>
+
+    <div class="services-cols">
+
+      <div class="service-group reveal">
+        <h3 class="service-group-title">Core Design Services</h3>
+        <ul class="service-list">
+          <li class="service-item">
+            <span class="service-num">01</span>
+            <div class="service-info">
+              <strong>Architectural Design</strong>
+              <span>Residential, commercial, mixed-use</span>
+            </div>
+          </li>
+          <li class="service-item">
+            <span class="service-num">02</span>
+            <div class="service-info">
+              <strong>Interior Design &amp; Space Planning</strong>
+            </div>
+          </li>
+          <li class="service-item">
+            <span class="service-num">03</span>
+            <div class="service-info">
+              <strong>Urban Design &amp; Master Planning</strong>
+            </div>
+          </li>
+          <li class="service-item">
+            <span class="service-num">04</span>
+            <div class="service-info">
+              <strong>Landscape Architecture</strong>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="service-group reveal">
+        <h3 class="service-group-title">Specialized Services</h3>
+        <ul class="service-list">
+          <li class="service-item">
+            <span class="service-num">05</span>
+            <div class="service-info">
+              <strong>Heritage &amp; Cultural Architecture</strong>
+            </div>
+          </li>
+          <li class="service-item">
+            <span class="service-num">06</span>
+            <div class="service-info">
+              <strong>Facade Design &amp; Detailing</strong>
+            </div>
+          </li>
+          <li class="service-item">
+            <span class="service-num">07</span>
+            <div class="service-info">
+              <strong>3D Visualization &amp; Rendering</strong>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECTION 5 — ACHIEVEMENTS ============== -->
+<section class="ach-section" id="achievements">
+  <div class="ach-header reveal">
+    <p class="section-eyebrow"><span class="section-line"></span><span>05 — ACHIEVEMENTS</span></p>
+    <h2 class="section-title">Recognition &amp;<br>Milestones.</h2>
+  </div>
+
+  <div class="ach-scene" id="achScene">
+
+    <!-- Fixed origami star + 8 interactive image spots -->
+    <div class="ach-star-wrap" id="achStarWrap">
+
+      <svg class="ach-star-svg" viewBox="0 0 105.39 105.39" aria-hidden="true">
+        <polygon points="52.7 0 52.7 52.7 36.67 20.46 52.7 0"       fill="#0b253d"/>
+        <polygon points="52.7 0 52.7 52.7 68.73 20.46 52.7 0"       fill="#0f2b4c"/>
+        <polygon points="0 52.7 52.7 52.7 20.46 68.73 0 52.7"       fill="#0b253d"/>
+        <polygon points="0 52.7 52.7 52.7 20.46 36.67 0 52.7"       fill="#0f2b4c"/>
+        <polygon points="105.39 52.7 52.7 52.7 84.93 36.67 105.39 52.7" fill="#0b253d"/>
+        <polygon points="105.39 52.7 52.7 52.7 84.93 68.73 105.39 52.7" fill="#0f2b4c"/>
+        <polygon points="52.7 105.39 52.7 52.7 68.73 84.93 52.7 105.39" fill="#0b253d"/>
+        <polygon points="52.7 105.39 52.7 52.7 36.67 84.93 52.7 105.39" fill="#0f2b4c"/>
+        <polygon points="15.43 15.43 52.7 52.7 20.46 36.67 15.43 15.43" fill="#0b253d"/>
+        <polygon points="15.43 15.43 52.7 52.7 36.67 20.46 15.43 15.43" fill="#0f2b4c"/>
+        <polygon points="89.96 15.43 52.7 52.7 68.73 20.46 89.96 15.43" fill="#0b253d"/>
+        <polygon points="89.96 15.43 52.7 52.7 84.93 36.67 89.96 15.43" fill="#0f2b4c"/>
+        <polygon points="89.96 89.96 52.7 52.7 84.93 68.73 89.96 89.96" fill="#0b253d"/>
+        <polygon points="89.96 89.96 52.7 52.7 68.73 84.93 89.96 89.96" fill="#0f2b4c"/>
+        <polygon points="15.43 89.96 52.7 52.7 36.67 84.93 15.43 89.96" fill="#0b253d"/>
+        <polygon points="15.43 89.96 52.7 52.7 20.46 68.73 15.43 89.96" fill="#0f2b4c"/>
+      </svg>
+
+      <!-- 8 floating memory dots — one per star tip, not touching the point -->
+      <!-- anchor sits at the tip coord; the inner button floats further out -->
+
+      <div class="ach-anchor" data-i="0" style="--sx:50%;--sy:0%">
+        <button class="ach-dot-btn" aria-label="Best Architecture Practice">
+          <div class="ach-dot-float"><div class="ach-dot-pip"></div></div>
+          <span class="ach-dot-name">Best Architecture Practice</span>
+        </button>
+      </div>
+
+      <div class="ach-anchor" data-i="1" style="--sx:85.36%;--sy:14.64%">
+        <button class="ach-dot-btn" aria-label="Sustainable Build Excellence">
+          <div class="ach-dot-float"><div class="ach-dot-pip"></div></div>
+          <span class="ach-dot-name">Sustainable Build Excellence</span>
+        </button>
+      </div>
+
+      <div class="ach-anchor" data-i="2" style="--sx:100%;--sy:50%">
+        <button class="ach-dot-btn" aria-label="Young Practice of the Year">
+          <div class="ach-dot-float"><div class="ach-dot-pip"></div></div>
+          <span class="ach-dot-name">Young Practice of the Year</span>
+        </button>
+      </div>
+
+      <div class="ach-anchor" data-i="3" style="--sx:85.36%;--sy:85.36%">
+        <button class="ach-dot-btn" aria-label="Heritage Design Award">
+          <div class="ach-dot-float"><div class="ach-dot-pip"></div></div>
+          <span class="ach-dot-name">Heritage Design Award</span>
+        </button>
+      </div>
+
+      <div class="ach-anchor" data-i="4" style="--sx:50%;--sy:100%">
+        <button class="ach-dot-btn" aria-label="Interior Project of the Year">
+          <div class="ach-dot-float"><div class="ach-dot-pip"></div></div>
+          <span class="ach-dot-name">Interior Project of the Year</span>
+        </button>
+      </div>
+
+      <div class="ach-anchor" data-i="5" style="--sx:14.64%;--sy:85.36%">
+        <button class="ach-dot-btn" aria-label="Brand Identity Excellence">
+          <div class="ach-dot-float"><div class="ach-dot-pip"></div></div>
+          <span class="ach-dot-name">Brand Identity Excellence</span>
+        </button>
+      </div>
+
+      <div class="ach-anchor" data-i="6" style="--sx:0%;--sy:50%">
+        <button class="ach-dot-btn" aria-label="Urban Innovation Prize">
+          <div class="ach-dot-float"><div class="ach-dot-pip"></div></div>
+          <span class="ach-dot-name">Urban Innovation Prize</span>
+        </button>
+      </div>
+
+      <div class="ach-anchor" data-i="7" style="--sx:14.64%;--sy:14.64%">
+        <button class="ach-dot-btn" aria-label="Client Satisfaction Award">
+          <div class="ach-dot-float"><div class="ach-dot-pip"></div></div>
+          <span class="ach-dot-name">Client Satisfaction Award</span>
+        </button>
+      </div>
+
+    </div><!-- /ach-star-wrap -->
+
+    <!-- Full-picture achievement panel (cinematic, image fills the card) -->
+    <div class="ach-panel" id="achPanel" aria-hidden="true">
+      <div class="ach-panel-img" id="achPanelImg"></div>
+      <div class="ach-panel-overlay"></div>
+      <div class="ach-panel-content">
+        <p class="ach-panel-award" id="achPanelAward"></p>
+        <h3 class="ach-panel-title" id="achPanelTitle"></h3>
+        <p class="ach-panel-para" id="achPanelPara"></p>
+      </div>
+      <button class="ach-panel-close" id="achPanelClose" aria-label="Close">&#x2715;</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============== SECTION 6 — CAREERS ============== -->
+<section class="careers" id="careers">
+  <div class="careers-head">
+    <div class="about-eyebrow reveal">
+      <span class="rule"></span>
+      <span>05 — Careers</span>
+    </div>
+    <h2 class="careers-heading reveal">Be part of something <em>meaningful</em>.</h2>
+    <p class="careers-sub reveal">We are always looking for exceptional talent who share our passion for Omani heritage and contemporary design.</p>
+  </div>
+
+  <div class="careers-panels">
+    <a href="mailto:Maqarstudio@gmail.com?subject=Resume%20Submission" class="career-panel career-panel--resume reveal" data-magnetic>
+      <span class="career-panel-num">01</span>
+      <div class="career-panel-arrow" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3 15L15 3M15 3H6M15 3V12" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/>
+        </svg>
+      </div>
+      <h3>Send Resume</h3>
+      <p>Share your portfolio and CV with our team. We review every application with care.</p>
+    </a>
+
+    <a href="mailto:Maqarstudio@gmail.com?subject=Internship%20Application" class="career-panel career-panel--intern reveal" data-magnetic>
+      <span class="career-panel-num">02</span>
+      <div class="career-panel-arrow" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3 15L15 3M15 3H6M15 3V12" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/>
+        </svg>
+      </div>
+      <h3>Apply for Internship</h3>
+      <p>Start your journey in Omani architecture. Open to students and recent graduates.</p>
+    </a>
+  </div>
+</section>
+
+<!-- ============== SECTION 5 — CONTACT ============== -->
+<section class="contact" id="contact">
+  <div class="contact-grid">
+    <div class="contact-left">
+      <div class="about-eyebrow reveal">
+        <span class="rule"></span>
+        <span>06 — Contact</span>
+      </div>
+      <h2 class="contact-heading reveal">Let's build something <em>considered</em>.</h2>
+      <ul class="contact-meta">
+        <li class="reveal"><span>Email</span><a href="mailto:Maqarstudio@gmail.com">Maqarstudio@gmail.com</a></li>
+        <li class="reveal"><span>Phone</span><a href="tel:+96876833386">+968 7683 3386</a></li>
+        <li class="reveal"><span>Studio</span>Muscat, Oman</li>
+      </ul>
+    </div>
+
+    <form class="contact-form reveal" id="contactForm" novalidate>
+      <div class="field">
+        <input type="text" id="cName" name="name" placeholder=" " required autocomplete="name" />
+        <label for="cName">Name</label>
+        <span class="field-line"></span>
+      </div>
+      <div class="field">
+        <input type="email" id="cEmail" name="email" placeholder=" " required autocomplete="email" />
+        <label for="cEmail">Email</label>
+        <span class="field-line"></span>
+      </div>
+      <div class="field">
+        <textarea id="cMessage" name="message" rows="3" placeholder=" " required></textarea>
+        <label for="cMessage">Message</label>
+        <span class="field-line"></span>
+      </div>
+      <button type="submit" class="send-btn" data-magnetic>
+        <span>Send</span>
+        <svg width="22" height="10" viewBox="0 0 22 10" fill="none" aria-hidden="true">
+          <path d="M0 5h20M16 1l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="square" />
+        </svg>
+      </button>
+      <p class="form-status" id="formStatus" aria-live="polite"></p>
+    </form>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-mark">
+      <span>Architectural</span>
+      <strong>MAQAR Studio</strong>
+    </div>
+    <div class="footer-meta">
+      <span>© 2026 MAQAR Studio</span>
+      <span>Muscat · Oman</span>
+    </div>
+  </footer>
+</section>
+
+<!-- ══ Project Modal ══ -->
+<div class="proj-modal" id="projModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="proj-modal-backdrop" id="projBackdrop"></div>
+  <div class="proj-modal-inner" id="projModalInner">
+
+    <button class="proj-close" id="projClose" aria-label="Close project">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+      </svg>
+    </button>
+
+    <div class="proj-counter">
+      <span class="proj-counter-cur">01</span>
+      <span class="proj-counter-sep"> / </span>
+      <span class="proj-counter-tot">03</span>
+    </div>
+
+    <div class="proj-slides-wrap">
+      <div class="proj-slides-track" id="projSlidesTrack"></div>
+    </div>
+
+    <div class="proj-info-panel" id="projInfoPanel">
+      <div class="proj-info-left"  id="projInfoLeft"></div>
+      <div class="proj-info-right" id="projInfoRight"></div>
+    </div>
+
+  </div>
+  <!-- Directional cursor (visible only inside modal) -->
+  <div class="proj-dir-cursor" id="projDirCursor">
+    <svg class="pdc-left"  width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M19 8H1M1 8l6-6M1 8l6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg>
+    <svg class="pdc-right" width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M1 8h18M19 8l-6-6M19 8l-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
