@@ -450,6 +450,15 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   pointer-events: none;
 }
 
+/* Sovereign variant — deeper navy, warm accent */
+.quote--sovereign { background: #14213D; }
+.quote--sovereign::after {
+  background: radial-gradient(closest-side, rgba(213, 174, 95, .25), transparent 70%);
+}
+.quote-portrait--sovereign img {
+  filter: drop-shadow(0 36px 80px rgba(0,0,0,.55));
+}
+
 .quote-grid {
   position: relative; z-index: 1;
   max-width: 1340px; margin: 0 auto;
