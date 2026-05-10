@@ -878,6 +878,56 @@
   }
 
   /* ------------------------------------------------------------
+     8.6) About-section music — fades in when section enters view,
+          fades out when it leaves. Pauses when tab is hidden.
+     ------------------------------------------------------------ */
+  const aboutMusic = document.getElementById('aboutMusic');
+  const aboutSection = document.getElementById('about');
+  if (aboutMusic && aboutSection && !prefersReduced && 'IntersectionObserver' in window) {
+    const TARGET_VOL = 0.45;
+    aboutMusic.volume = 0;
+
+    let fadeRaf = null;
+    const fadeTo = (target, durationMs = 900) => {
+      if (fadeRaf) cancelAnimationFrame(fadeRaf);
+      const start = performance.now();
+      const from = aboutMusic.volume;
+      const tick = (t) => {
+        const p = Math.min(1, (t - start) / durationMs);
+        aboutMusic.volume = Math.max(0, Math.min(1, from + (target - from) * p));
+        if (p < 1) fadeRaf = requestAnimationFrame(tick);
+        else if (target === 0) { try { aboutMusic.pause(); } catch (_) {} }
+      };
+      fadeRaf = requestAnimationFrame(tick);
+    };
+
+    const tryPlay = () => {
+      const p = aboutMusic.play();
+      if (p && typeof p.catch === 'function') p.catch(() => { /* autoplay blocked */ });
+    };
+
+    const aboutIO = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          tryPlay();
+          fadeTo(TARGET_VOL, 1200);
+        } else {
+          fadeTo(0, 800);
+        }
+      }
+    }, { threshold: 0.25 });
+    aboutIO.observe(aboutSection);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) { try { aboutMusic.pause(); } catch (_) {} }
+      else if (aboutSection.getBoundingClientRect().top < window.innerHeight * 0.75 &&
+               aboutSection.getBoundingClientRect().bottom > 0) {
+        tryPlay();
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------
      9) Smooth-scroll for in-page nav links
      ------------------------------------------------------------ */
   document.querySelectorAll('[data-link]').forEach(a => {
