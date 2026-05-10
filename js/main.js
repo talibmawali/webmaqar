@@ -24,16 +24,35 @@
 
     intro.classList.add('is-revealed');
 
+    const markEnded = () => intro.classList.add('is-ended');
+
     const playFromStart = () => {
       intro.classList.remove('is-ended');
       try { video.currentTime = 0; } catch (_) {}
       const p = video.play();
-      if (p && typeof p.catch === 'function') p.catch(() => {});
+      if (p && typeof p.catch === 'function') {
+        // Autoplay blocked (common on iOS / low-power mode) → show the
+        // ended state immediately so the door / title aren't gated on a
+        // video that can't play.
+        p.catch(() => markEnded());
+      }
     };
 
-    video.addEventListener('ended', () => {
-      intro.classList.add('is-ended');
-    });
+    video.addEventListener('ended', markEnded);
+
+    // Kick off playback explicitly so we can catch autoplay rejections
+    // that the `autoplay` attribute swallows silently on iOS / low-power.
+    const initial = video.play();
+    if (initial && typeof initial.catch === 'function') {
+      initial.catch(() => markEnded());
+    }
+
+    // Fallback: if the video is still stuck near 0 after a moment, treat
+    // it as ended so the door / title overlay aren't gated on it.
+    setTimeout(() => {
+      if (intro.classList.contains('is-ended')) return;
+      if (video.paused || video.currentTime < 0.1) markEnded();
+    }, 2500);
 
     const navMark = document.querySelector('.nav-mark');
     if (navMark) {
