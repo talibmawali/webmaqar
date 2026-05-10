@@ -13,122 +13,44 @@
   const isFinePointer  = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   /* ------------------------------------------------------------
-     1) Scroll-scrubbed intro video
+     1) Intro video — autoplays once, replays on logo click,
+        navy panel fades in when video ends
      ------------------------------------------------------------ */
-  const intro      = document.getElementById('intro');
-  const video      = document.getElementById('introVideo');
+  const intro = document.getElementById('intro');
+  const video = document.getElementById('introVideo');
 
-  const setupVideoScrub = () => {
+  const setupIntro = () => {
     if (!intro || !video) return;
 
-    let duration = 0;
-    let srcAttached = false;
-    let isSeeking = false;
-    let pendingTime = null;
-    let isInView = true;
-    let cachedRange = 1;          // intro scrollable range, cached
-    let lastTargetTime = -1;       // last time we asked the video to seek to
-    let lastScrollY = -1;
-    let pendingScrollFrame = null;
+    intro.classList.add('is-revealed');
 
-    const attachSrc = () => {
-      if (srcAttached) return;
-      const src = video.dataset.src;
-      if (!src) { srcAttached = true; return; }
-      // If the src was already attached externally (or by a hot-reload), leave the
-      // video alone — calling load() again would reset currentTime and re-fetch.
-      if (video.src && video.src.length > 0) { srcAttached = true; return; }
-      video.src = src;
-      video.load();
-      srcAttached = true;
+    const playFromStart = () => {
+      intro.classList.remove('is-ended');
+      try { video.currentTime = 0; } catch (_) {}
+      const p = video.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
     };
 
-    // Defer video load until first user scroll so initial paint isn't blocked.
-    window.addEventListener('scroll', attachSrc, { once: true, passive: true });
-    intro.addEventListener('pointerdown', attachSrc, { once: true });
-
-    const recomputeRange = () => {
-      cachedRange = Math.max(1, intro.offsetHeight - window.innerHeight);
-    };
-    recomputeRange();
-    window.addEventListener('resize', recomputeRange);
-
-    const onMeta = () => {
-      duration = video.duration || 0;
-      try { video.currentTime = 0.001; } catch (_) {}
-    };
-    if (video.readyState >= 1) onMeta();
-    video.addEventListener('loadedmetadata', onMeta);
-
-    // Browser-side flag: track when seek is in flight so we don't queue a backlog.
-    video.addEventListener('seeking', () => { isSeeking = true; });
-    video.addEventListener('seeked',  () => {
-      isSeeking = false;
-      // If the user kept scrolling while we were seeking, jump straight to the latest target.
-      if (pendingTime != null) {
-        const t = pendingTime;
-        pendingTime = null;
-        requestSeek(t);
-      }
+    video.addEventListener('ended', () => {
+      intro.classList.add('is-ended');
     });
 
-    // Prefer fastSeek when available — seeks to the nearest keyframe instantly,
-    // which is what we want for high-bitrate / sparse-keyframe MP4s.
-    const useFastSeek = typeof video.fastSeek === 'function';
-
-    const requestSeek = (t) => {
-      if (!duration) return;
-      // The video's own time is close enough — skip.
-      if (Math.abs(video.currentTime - t) < 0.04) return;
-      if (Math.abs(t - lastTargetTime) < 0.04) return;
-      lastTargetTime = t;
-
-      if (isSeeking) {
-        // Don't stack seeks. Remember the latest desired time and apply it on `seeked`.
-        pendingTime = t;
-        return;
-      }
-      try {
-        if (useFastSeek) video.fastSeek(t);
-        else video.currentTime = t;
-      } catch (_) { /* swallow — happens during teardown */ }
-    };
-
-    // The single scroll handler. Runs in a coalesced rAF so we do at most
-    // one layout read & one seek per frame, regardless of scroll-event firing rate.
-    const onScroll = () => {
-      if (!isInView || pendingScrollFrame) return;
-      pendingScrollFrame = requestAnimationFrame(() => {
-        pendingScrollFrame = null;
-        // Use scrollY arithmetic instead of getBoundingClientRect — no forced layout.
-        const introTop = intro.offsetTop;
-        const scrolled = window.scrollY - introTop;
-        const p = Math.min(1, Math.max(0, scrolled / cachedRange));
-
-        if (p > 0.7) intro.classList.add('is-revealed');
-        else intro.classList.remove('is-revealed');
-
-        if (duration) requestSeek(p * duration);
+    const navMark = document.querySelector('.nav-mark');
+    if (navMark) {
+      navMark.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        playFromStart();
       });
-    };
-
-    // Skip all scrub work while the intro is fully offscreen.
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver((entries) => {
-        isInView = entries[0].isIntersecting;
-        if (isInView) onScroll();
-      }, { rootMargin: '0px' });
-      io.observe(intro);
     }
 
-    if (prefersReduced) intro.classList.add('is-revealed');
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', () => { recomputeRange(); onScroll(); });
-    onScroll();
+    if (prefersReduced) {
+      try { video.pause(); } catch (_) {}
+      intro.classList.add('is-ended');
+    }
   };
 
-  setupVideoScrub();
+  setupIntro();
 
   /* ------------------------------------------------------------
      2) Reveal-on-scroll for non-intro sections
@@ -184,6 +106,10 @@
     navHamburger.addEventListener('click', () => {
       navHamburger.classList.contains('is-open') ? closeDrawer() : openDrawer();
     });
+    const navDrawerClose = document.getElementById('navDrawerClose');
+    if (navDrawerClose) {
+      navDrawerClose.addEventListener('click', closeDrawer);
+    }
     navDrawer.querySelectorAll('[data-drawer-link]').forEach(a => {
       a.addEventListener('click', closeDrawer);
     });
@@ -741,7 +667,10 @@
     achStarWrap.querySelectorAll('.ach-anchor').forEach((anchor, i) => {
       anchor.querySelector('.ach-dot-btn').addEventListener('click', () => {
         anchor.classList.add('is-flipping');
-        setTimeout(() => openAch(i), 230);          // open at blur peak
+        // Star spins smoothly, then panel emerges like a memory.
+        achSection.classList.add('is-zooming');
+        setTimeout(() => openAch(i), 280);
+        setTimeout(() => achSection.classList.remove('is-zooming'), 700);
         setTimeout(() => anchor.classList.remove('is-flipping'), 650);
       });
     });

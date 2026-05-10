@@ -33,6 +33,11 @@
   </button>
 </header>
 <div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <button class="nav-drawer-close" id="navDrawerClose" aria-label="Close menu">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path d="M2 2l14 14M16 2L2 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/>
+    </svg>
+  </button>
   <a href="#about"        data-link data-drawer-link>About</a>
   <a href="#work"         data-link data-drawer-link>Work</a>
   <a href="#services"     data-link data-drawer-link>Services</a>
@@ -43,8 +48,9 @@
 
 <!-- ============== SECTION 1 — SCROLL-SCRUB INTRO ============== -->
 <section class="intro" id="intro">
-  <div class="intro-sticky">
-    <video class="intro-video" id="introVideo" muted playsinline preload="none" disableRemotePlayback data-src="assets/maqar-intro-scrub.mp4"></video>
+  <div class="intro-stage">
+    <video class="intro-video" id="introVideo" muted playsinline autoplay preload="auto" disableRemotePlayback src="assets/maqar-intro-scrub.mp4"></video>
+    <div class="intro-end-panel" aria-hidden="true"></div>
     <div class="intro-veil" aria-hidden="true"></div>
     <div class="intro-overlay">
       <div class="intro-mark" data-reveal>
