@@ -669,8 +669,12 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   position: relative; height: 100%; width: 100%;
   border-radius: 4px;
   overflow: hidden;
-  background:
-    linear-gradient(135deg, var(--g1, var(--c-navy)) 0%, var(--g2, var(--c-earth)) 100%);
+  /* Longhands so JS can override background-image without resetting size/position */
+  background-color: var(--g1, var(--c-navy));
+  background-image: linear-gradient(135deg, var(--g1, var(--c-navy)) 0%, var(--g2, var(--c-earth)) 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   transform-style: preserve-3d;
   transition: transform .6s var(--ease), box-shadow .6s var(--ease);
   will-change: transform;
@@ -1321,6 +1325,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .proj-slide-media {
   width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .proj-slide-label {
   font-size: 1.4rem; font-weight: 700; letter-spacing: .08em;

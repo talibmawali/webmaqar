@@ -1,12 +1,103 @@
 /* ============================================================
    MAQAR Studio — Site interactions
-   - Scroll-scrubbed intro video
-   - Section reveal observer
-   - Custom cursor + magnetic targets
-   - Portfolio tabs (animated indicator) + filter
-   - 3D tilt on cards
-   - Smooth nav fade
    ============================================================ */
+
+/* ════════════════════════════════════════════════════════════
+   MEDIA CONFIG
+   Drop your image / video paths here — leave '' to keep the
+   colour-gradient placeholder.
+
+   Supported formats for images: jpg, jpeg, png, webp, avif
+   Paths are relative to index.html (e.g. 'assets/photo.jpg')
+   ════════════════════════════════════════════════════════════ */
+const MEDIA = {
+
+  /* ── Intro video & background music ──────────────────────── */
+  intro: {
+    video : 'assets/maqar-intro-scrub.mp4',
+    music : 'assets/maqar-music.mp3',
+  },
+
+  /* ── Work grid cards + project modal slides ──────────────────
+     cover  → image shown on the card thumbnail
+     slides → one image per modal slide (must match slide count)
+     Leave any value as '' to show the colour gradient instead. */
+  projects: {
+    'Residence Al Khuwair': {
+      cover : '',
+      slides: ['', '', ''],
+    },
+    'Brand Portal UI': {
+      cover : '',
+      slides: ['', '', ''],
+    },
+    'Identity System Vol.1': {
+      cover : '',
+      slides: ['', '', ''],
+    },
+    'The Courtyard House': {
+      cover : '',
+      slides: ['', '', ''],
+    },
+    '3D Visualization Suite': {
+      cover : '',
+      slides: ['', '', ''],
+    },
+    'Exhibition Catalog': {
+      cover : '',
+      slides: ['', '', ''],
+    },
+    'Pavilion 07': {
+      cover : '',
+      slides: ['', '', ''],
+    },
+    'Interactive Space': {
+      cover : '',
+      slides: ['', '', ''],
+    },
+    'Wayfinding System': {
+      cover : '',
+      slides: ['', '', ''],
+    },
+    'Salalah Apartment': {
+      cover : '',
+      slides: ['', '', ''],
+    },
+    'Atelier Workspace': {
+      cover : '',
+      slides: ['', '', ''],
+    },
+    'Hospitality Suite': {
+      cover : '',
+      slides: ['', '', ''],
+    },
+  },
+
+  /* ── Achievement panel backgrounds (index 0 – 7) ────────────
+     Order matches the star tips clockwise from top.           */
+  achievements: [
+    '',   // 0 · Best Architecture Practice
+    '',   // 1 · Sustainable Build Excellence
+    '',   // 2 · Young Practice of the Year
+    '',   // 3 · Heritage Design Award
+    '',   // 4 · Interior Project of the Year
+    '',   // 5 · Brand Identity Excellence
+    '',   // 6 · Urban Innovation Prize
+    '',   // 7 · Client Satisfaction Award
+  ],
+
+  /* ── Team photos ─────────────────────────────────────────────
+     Update the src= in index.html directly, OR set paths here
+     and they will be applied on load (id must match).         */
+  team: {
+    'ceo-photo'  : 'assets/ceo-talib.png',
+    'coo-photo'  : 'assets/coo-alaiham.png',
+    'exec-photo' : 'assets/exec3.png',
+    'cfo-photo'  : 'assets/CFO-Ayyan.png',
+  },
+
+};
+/* ════════════════════════════════════════════════════════════ */
 
 (() => {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -538,11 +629,16 @@
   function buildSlides(proj) {
     projTrack.innerHTML = '';
     projTrack.style.transform = 'translateX(0)';
+    const mediaCfg = MEDIA.projects[proj.title] || {};
     proj.slides.forEach((s, i) => {
       const [c1, c2] = proj.colors[i] || proj.colors[0];
+      const imgPath   = (mediaCfg.slides || [])[i] || '';
+      const bgStyle   = imgPath
+        ? `background-image:url('${imgPath}')`
+        : `background:linear-gradient(135deg,${c1},${c2})`;
       const el = document.createElement('div');
       el.className = 'proj-slide';
-      el.innerHTML = `<div class="proj-slide-media" style="background:linear-gradient(135deg,${c1},${c2})"><span class="proj-slide-label">${proj.code} · 0${i+1}</span></div>`;
+      el.innerHTML = `<div class="proj-slide-media" style="${bgStyle}"><span class="proj-slide-label">${imgPath ? '' : proj.code + ' · 0' + (i+1)}</span></div>`;
       projTrack.appendChild(el);
     });
   }
@@ -579,6 +675,7 @@
     const key  = h3 ? h3.textContent.trim() : '';
     projData   = PROJ[key];
     if (!projData) return;
+    projData.title = key;   // store key so buildSlides can look up MEDIA
 
     projSlide = 0;
     projTotal = projData.slides.length;
@@ -627,10 +724,24 @@
     }, 180);
   }
 
-  // Click card to open
+  // Apply cover images from MEDIA config + bind click
   document.querySelectorAll('.card').forEach(card => {
     card.style.cursor = 'none';
+    // Apply cover image if configured
+    const title   = card.querySelector('h3')?.textContent.trim() || '';
+    const cover   = (MEDIA.projects[title] || {}).cover || '';
+    if (cover) {
+      const media = card.querySelector('.card-media');
+      if (media) media.style.backgroundImage = `url('${cover}')`;
+    }
     card.addEventListener('click', () => openModal(card));
+  });
+
+  // Apply team photos from MEDIA config
+  Object.entries(MEDIA.team || {}).forEach(([id, src]) => {
+    if (!src) return;
+    const el = document.getElementById(id);
+    if (el) el.src = src;
   });
 
   // Click slide area to advance/retreat
@@ -743,8 +854,16 @@
 
     function openAch(idx) {
       achActive = idx;
-      const a = ACH[idx];
-      achPanelImg.style.background = `linear-gradient(135deg, ${a.colors[0]}, ${a.colors[1]})`;
+      const a       = ACH[idx];
+      const imgPath = (MEDIA.achievements || [])[idx] || '';
+      if (imgPath) {
+        achPanelImg.style.backgroundImage = `url('${imgPath}')`;
+        achPanelImg.style.backgroundSize  = 'cover';
+        achPanelImg.style.backgroundPosition = 'center';
+      } else {
+        achPanelImg.style.backgroundImage = `linear-gradient(135deg, ${a.colors[0]}, ${a.colors[1]})`;
+        achPanelImg.style.backgroundSize  = 'auto';
+      }
       achPanelAward.textContent = a.award;
       achPanelTitle.textContent = a.title;
       achPanelPara.textContent  = a.para;
