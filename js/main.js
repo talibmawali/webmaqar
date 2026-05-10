@@ -48,6 +48,24 @@
       try { video.pause(); } catch (_) {}
       intro.classList.add('is-ended');
     }
+
+    // Door overlay (mobile only): fades with scroll once the video has ended.
+    const introDoor = document.getElementById('introDoor');
+    if (introDoor) {
+      let doorScrollActive = false;
+      const updateDoor = () => {
+        if (!intro.classList.contains('is-ended')) return;
+        const fadeRange = (intro.offsetHeight || window.innerHeight) * 0.85;
+        const opacity = Math.max(0, Math.min(1, 1 - window.scrollY / fadeRange));
+        if (!doorScrollActive && window.scrollY > 0) {
+          introDoor.style.transition = 'none';
+          doorScrollActive = true;
+        }
+        introDoor.style.opacity = String(opacity);
+      };
+      window.addEventListener('scroll', updateDoor, { passive: true });
+      window.addEventListener('resize', updateDoor);
+    }
   };
 
   setupIntro();

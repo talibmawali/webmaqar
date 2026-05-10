@@ -266,6 +266,27 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   transition: opacity .8s var(--ease);
 }
 .intro.is-ended .intro-end-panel { opacity: 1; }
+
+/* Mobile-only welcome door overlay — fades in when video ends, fades with scroll */
+.intro-door {
+  display: none;
+}
+@media (max-width: 720px) {
+  .intro-door {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .9s var(--ease);
+    z-index: 1;
+  }
+  .intro.is-ended .intro-door { opacity: 1; }
+}
 .intro-veil {
   position: absolute; inset: 0;
   background:
