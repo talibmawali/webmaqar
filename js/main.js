@@ -755,13 +755,32 @@
     }
 
     achStarWrap.querySelectorAll('.ach-anchor').forEach((anchor, i) => {
-      anchor.querySelector('.ach-dot-btn').addEventListener('click', () => {
-        anchor.classList.add('is-flipping');
+      const btn = anchor.querySelector('.ach-dot-btn');
+
+      // Desktop: blur star + highlight this dot on hover
+      anchor.addEventListener('mouseenter', () => {
+        achStarWrap.classList.add('dot-hovered');
+        anchor.classList.add('is-hovered');
+      });
+      anchor.addEventListener('mouseleave', () => {
+        achStarWrap.classList.remove('dot-hovered');
+        anchor.classList.remove('is-hovered');
+      });
+
+      // Click / tap: blur briefly → flip pip → open panel
+      btn.addEventListener('click', () => {
+        // Show blur on mobile (no hover) for same visual feedback
+        achStarWrap.classList.add('dot-hovered');
+        anchor.classList.add('is-hovered', 'is-flipping');
         // Star spins smoothly, then panel emerges like a memory.
         achSection.classList.add('is-zooming');
         setTimeout(() => openAch(i), 280);
         setTimeout(() => achSection.classList.remove('is-zooming'), 700);
-        setTimeout(() => anchor.classList.remove('is-flipping'), 650);
+        setTimeout(() => {
+          anchor.classList.remove('is-flipping');
+          achStarWrap.classList.remove('dot-hovered');
+          anchor.classList.remove('is-hovered');
+        }, 650);
       });
     });
 

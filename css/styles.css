@@ -1484,10 +1484,19 @@ body.modal-open .cursor-diamond { opacity: 0 !important; }
   width: 100%;
   height: 100%;
   display: block;
-  /* drop-shadow filter is expensive during transforms — use a static box-shadow alt */
-  transition: opacity .4s ease;
+  transition: opacity .4s ease, filter .38s ease;
 }
 .ach-star-svg polygon { transition: fill .4s ease; }
+
+/* ── Hover state: blur star, dim other dots ── */
+.ach-star-wrap.dot-hovered .ach-star-svg {
+  filter: blur(5px) brightness(0.65);
+  opacity: 0.7;
+}
+.ach-star-wrap.dot-hovered .ach-anchor:not(.is-hovered) .ach-dot-pip {
+  opacity: 0.25;
+  transform: scale(0.8);
+}
 
 /* ── Floating memory dots ── */
 
@@ -1556,25 +1565,96 @@ body.modal-open .cursor-diamond { opacity: 0 !important; }
   box-shadow: 0 5px 18px rgba(191,74,39,.45);
 }
 
-/* Label under pip — absolute so it doesn't pull the pip off-tip */
+/* ── Tooltip card — frosted glass, positioned outward per dot direction ── */
 .ach-dot-name {
   position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
-  font-size: .55rem;
-  font-weight: 700;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-  color: var(--c-ink);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 10px;
+  padding: 10px 16px;
   white-space: nowrap;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--c-ink);
+  box-shadow: 0 8px 28px rgba(30,43,75,.22), 0 0 0 1px rgba(30,43,75,.07);
   opacity: 0;
-  transform: translate(-50%, 3px);
-  transition: opacity .22s ease, transform .22s ease;
   pointer-events: none;
+  z-index: 20;
+  transition: opacity .22s ease, transform .25s cubic-bezier(.23,1,.32,1);
 }
-.ach-dot-btn:hover .ach-dot-name {
-  opacity: .75;
-  transform: translate(-50%, 0);
+
+/* Top (0) — tooltip above */
+.ach-anchor[data-i="0"] .ach-dot-name {
+  bottom: calc(100% + 14px); left: 50%;
+  transform: translateX(-50%) translateY(6px) scale(0.9);
+}
+.ach-anchor[data-i="0"] .ach-dot-btn:hover .ach-dot-name {
+  opacity: 1; transform: translateX(-50%) translateY(0) scale(1);
+}
+
+/* Upper-right (1) — tooltip top-right */
+.ach-anchor[data-i="1"] .ach-dot-name {
+  bottom: calc(100% + 10px); left: calc(100% + 8px);
+  transform: translateY(6px) scale(0.9);
+}
+.ach-anchor[data-i="1"] .ach-dot-btn:hover .ach-dot-name {
+  opacity: 1; transform: translateY(0) scale(1);
+}
+
+/* Right (2) — tooltip to the right */
+.ach-anchor[data-i="2"] .ach-dot-name {
+  left: calc(100% + 14px); top: 50%;
+  transform: translateY(-50%) translateX(-5px) scale(0.9);
+}
+.ach-anchor[data-i="2"] .ach-dot-btn:hover .ach-dot-name {
+  opacity: 1; transform: translateY(-50%) translateX(0) scale(1);
+}
+
+/* Lower-right (3) — tooltip bottom-right */
+.ach-anchor[data-i="3"] .ach-dot-name {
+  top: calc(100% + 10px); left: calc(100% + 8px);
+  transform: translateY(-6px) scale(0.9);
+}
+.ach-anchor[data-i="3"] .ach-dot-btn:hover .ach-dot-name {
+  opacity: 1; transform: translateY(0) scale(1);
+}
+
+/* Bottom (4) — tooltip below */
+.ach-anchor[data-i="4"] .ach-dot-name {
+  top: calc(100% + 14px); left: 50%;
+  transform: translateX(-50%) translateY(-6px) scale(0.9);
+}
+.ach-anchor[data-i="4"] .ach-dot-btn:hover .ach-dot-name {
+  opacity: 1; transform: translateX(-50%) translateY(0) scale(1);
+}
+
+/* Lower-left (5) — tooltip bottom-left */
+.ach-anchor[data-i="5"] .ach-dot-name {
+  top: calc(100% + 10px); right: calc(100% + 8px);
+  transform: translateY(-6px) scale(0.9);
+}
+.ach-anchor[data-i="5"] .ach-dot-btn:hover .ach-dot-name {
+  opacity: 1; transform: translateY(0) scale(1);
+}
+
+/* Left (6) — tooltip to the left */
+.ach-anchor[data-i="6"] .ach-dot-name {
+  right: calc(100% + 14px); top: 50%;
+  transform: translateY(-50%) translateX(5px) scale(0.9);
+}
+.ach-anchor[data-i="6"] .ach-dot-btn:hover .ach-dot-name {
+  opacity: 1; transform: translateY(-50%) translateX(0) scale(1);
+}
+
+/* Upper-left (7) — tooltip top-left */
+.ach-anchor[data-i="7"] .ach-dot-name {
+  bottom: calc(100% + 10px); right: calc(100% + 8px);
+  transform: translateY(6px) scale(0.9);
+}
+.ach-anchor[data-i="7"] .ach-dot-btn:hover .ach-dot-name {
+  opacity: 1; transform: translateY(0) scale(1);
 }
 
 /* Flip + blur animation when clicked */
