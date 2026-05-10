@@ -24,8 +24,8 @@ const MEDIA = {
      Leave any value as '' to show the colour gradient instead. */
   projects: {
     'Residence Al Khuwair': {
-      cover : '',
-      slides: ['', '', ''],
+      cover : './assets/Interior-A.png',
+      slides: ['./assets/Interior-A.png', '', ''],
     },
     'Brand Portal UI': {
       cover : '',
