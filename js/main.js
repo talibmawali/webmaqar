@@ -24,7 +24,49 @@
 
     intro.classList.add('is-revealed');
 
-    const markEnded = () => intro.classList.add('is-ended');
+    // ── Intro audio at 20% volume ──────────────────────────────
+    const introAudio = document.getElementById('introAudio');
+    const INTRO_VOL  = 0.20;
+    let   audioFadeRaf = null;
+
+    const fadeAudioTo = (target, ms = 800) => {
+      if (!introAudio) return;
+      if (audioFadeRaf) cancelAnimationFrame(audioFadeRaf);
+      const start = performance.now();
+      const from  = introAudio.volume;
+      const tick  = (t) => {
+        const p = Math.min(1, (t - start) / ms);
+        introAudio.volume = Math.max(0, Math.min(1, from + (target - from) * p));
+        if (p < 1) { audioFadeRaf = requestAnimationFrame(tick); }
+        else if (target === 0) { try { introAudio.pause(); } catch (_) {} }
+      };
+      audioFadeRaf = requestAnimationFrame(tick);
+    };
+
+    const startIntroAudio = () => {
+      if (!introAudio || prefersReduced) return;
+      introAudio.volume = 0;
+      const p = introAudio.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
+      fadeAudioTo(INTRO_VOL, 1200);
+    };
+
+    const stopIntroAudio = (fast = false) => {
+      fadeAudioTo(0, fast ? 300 : 900);
+    };
+
+    // Fade out when video ends
+    const markEnded = () => {
+      intro.classList.add('is-ended');
+      stopIntroAudio();
+    };
+
+    // Stop audio when user scrolls past the intro section
+    const introAudioScroll = () => {
+      if (!intro.classList.contains('is-ended')) return;
+      if (window.scrollY > intro.offsetHeight * 0.5) stopIntroAudio(true);
+    };
+    window.addEventListener('scroll', introAudioScroll, { passive: true });
 
     const playFromStart = () => {
       intro.classList.remove('is-ended');
@@ -46,6 +88,17 @@
     if (initial && typeof initial.catch === 'function') {
       initial.catch(() => markEnded());
     }
+
+    // Try audio immediately (works if the browser has already granted
+    // autoplay media permission). If blocked, start on first interaction.
+    startIntroAudio();
+    const onFirstInteraction = () => {
+      startIntroAudio();
+      document.removeEventListener('pointerdown', onFirstInteraction);
+      document.removeEventListener('keydown',     onFirstInteraction);
+    };
+    document.addEventListener('pointerdown', onFirstInteraction, { once: true });
+    document.addEventListener('keydown',     onFirstInteraction, { once: true });
 
     // Fallback: if the video is still stuck near 0 after a moment, treat
     // it as ended so the door / title overlay aren't gated on it.
