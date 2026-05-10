@@ -3,6 +3,19 @@
    ============================================================ */
 
 /* ════════════════════════════════════════════════════════════
+   EMAIL CONFIG  (EmailJS — https://emailjs.com)
+   Fill these in after creating your free EmailJS account.
+   See setup instructions below the MEDIA config.
+   ════════════════════════════════════════════════════════════ */
+const EMAILJS_CFG = {
+  publicKey  : 'YOUR_PUBLIC_KEY',   // Account → General → Public Key
+  serviceId  : 'YOUR_SERVICE_ID',   // Email Services → your Gmail service ID
+  templateId : 'YOUR_TEMPLATE_ID',  // Email Templates → your template ID
+  toEmail    : 'maqarstudio@gmail.com',
+};
+/* ════════════════════════════════════════════════════════════ */
+
+/* ════════════════════════════════════════════════════════════
    MEDIA CONFIG
    Drop your image / video paths here — leave '' to keep the
    colour-gradient placeholder.
@@ -467,25 +480,61 @@ const MEDIA = {
   }
 
   /* ------------------------------------------------------------
-     7) Contact form — local-only handler
+     7) Forms — EmailJS sending
      ------------------------------------------------------------ */
+
+  // Initialise EmailJS once
+  if (typeof emailjs !== 'undefined' && EMAILJS_CFG.publicKey !== 'YOUR_PUBLIC_KEY') {
+    emailjs.init(EMAILJS_CFG.publicKey);
+  }
+
+  // Shared send helper — returns a Promise
+  const sendEmail = (subject, fromName, fromEmail, messageBody) => {
+    if (typeof emailjs === 'undefined') return Promise.reject('EmailJS not loaded');
+    return emailjs.send(EMAILJS_CFG.serviceId, EMAILJS_CFG.templateId, {
+      to_email   : EMAILJS_CFG.toEmail,
+      from_name  : fromName,
+      from_email : fromEmail,
+      reply_to   : fromEmail,
+      subject    : subject,
+      message    : messageBody,
+    });
+  };
+
+  // ── Contact form ─────────────────────────────────────────────
   const form   = document.getElementById('contactForm');
   const status = document.getElementById('formStatus');
   if (form && status) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const data = new FormData(form);
-      const name = (data.get('name') || '').toString().trim();
-      const email = (data.get('email') || '').toString().trim();
+      const data    = new FormData(form);
+      const name    = (data.get('name')    || '').toString().trim();
+      const email   = (data.get('email')   || '').toString().trim();
       const message = (data.get('message') || '').toString().trim();
+
       if (!name || !email || !message) {
         status.textContent = 'Please complete all fields.';
         status.style.color = 'var(--c-rust)';
         return;
       }
-      status.textContent = 'Thank you — we will be in touch shortly.';
-      status.style.color = 'var(--c-sand)';
-      form.reset();
+
+      const btn = form.querySelector('[type=submit]');
+      if (btn) btn.disabled = true;
+      status.textContent = 'Sending…';
+      status.style.color = 'var(--c-ink-soft)';
+
+      try {
+        await sendEmail(`Website enquiry from ${name}`, name, email, message);
+        status.textContent = 'Message sent — we\'ll be in touch shortly.';
+        status.style.color = 'var(--c-sand)';
+        form.reset();
+      } catch (err) {
+        console.error('EmailJS error:', err);
+        status.textContent = 'Something went wrong. Please email us directly at maqarstudio@gmail.com';
+        status.style.color = 'var(--c-rust)';
+      } finally {
+        if (btn) btn.disabled = false;
+      }
     });
   }
 
@@ -1028,10 +1077,10 @@ const MEDIA = {
       if (e.key === 'Escape' && careerModal.classList.contains('is-open')) closeCareer();
     });
 
-    careerForm.addEventListener('submit', (e) => {
+    careerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!currentType) return;
-      const cfg = CAREER_FORMS[currentType];
+      const cfg  = CAREER_FORMS[currentType];
       const data = new FormData(careerForm);
 
       // Required-field check
@@ -1045,30 +1094,52 @@ const MEDIA = {
         }
       }
 
-      // Build the email body
+      // Build message body + grab applicant email
       const lines = [];
-      let attachmentName = '';
+      let applicantEmail = '';
+      let applicantName  = '';
+      let attachmentNote = '';
       for (const f of cfg.fields) {
         const val = data.get(f.name);
         if (f.type === 'file') {
-          if (val && val.name) attachmentName = val.name;
+          if (val && val.name) attachmentNote = val.name;
         } else {
           const s = (val || '').toString().trim();
-          if (s) lines.push(`${f.label}: ${s}`);
+          if (s) {
+            lines.push(`${f.label}: ${s}`);
+            if (f.name === 'email') applicantEmail = s;
+            if (f.name === 'name')  applicantName  = s;
+          }
         }
       }
-      if (attachmentName) {
-        lines.push('', `Attachment selected: ${attachmentName}`,
-                   '(Please attach the file in your email client before sending.)');
+      if (attachmentNote) {
+        lines.push('', `CV / Portfolio filename: ${attachmentNote}`);
       }
-      const subject = encodeURIComponent(cfg.subject);
-      const body    = encodeURIComponent(lines.join('\n'));
-      window.location.href = `mailto:Maqarstudio@gmail.com?subject=${subject}&body=${body}`;
 
+      const submitBtn = careerForm.querySelector('[type=submit]');
+      if (submitBtn) submitBtn.disabled = true;
+      careerStatus.textContent = 'Sending…';
       careerStatus.style.color = 'var(--c-ink-soft)';
-      careerStatus.textContent = attachmentName
-        ? `Your email is opening — please attach "${attachmentName}" before sending.`
-        : 'Your email is opening — review and send to complete your submission.';
+
+      try {
+        await sendEmail(
+          cfg.subject,
+          applicantName  || 'MAQAR Website',
+          applicantEmail || EMAILJS_CFG.toEmail,
+          lines.join('\n')
+        );
+        careerStatus.style.color = 'green';
+        careerStatus.textContent = attachmentNote
+          ? `Submitted! Please also email your CV/Portfolio to ${EMAILJS_CFG.toEmail}`
+          : 'Submitted successfully — we\'ll review your application and be in touch.';
+        careerForm.reset();
+      } catch (err) {
+        console.error('EmailJS error:', err);
+        careerStatus.style.color = 'var(--c-rust)';
+        careerStatus.textContent = `Something went wrong. Please email us directly at ${EMAILJS_CFG.toEmail}`;
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
     });
   }
 
