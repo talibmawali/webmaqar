@@ -2511,16 +2511,10 @@ html[dir="rtl"] .nav-links {
   flex-direction: row-reverse;
 }
 
-/* Intro text — right-align */
+/* Intro text — stay centered, just let Arabic glyphs render naturally */
 html[dir="rtl"] .intro-overlay {
-  align-items: flex-end;
-  text-align: right;
-}
-html[dir="rtl"] .intro-mark {
-  align-items: flex-end;
-}
-html[dir="rtl"] .intro-scroll-hint {
-  align-self: flex-end;
+  align-items: center;
+  text-align: center;
 }
 
 /* About section */
@@ -2528,8 +2522,11 @@ html[dir="rtl"] .about-grid {
   direction: rtl;
   text-align: right;
 }
+/* Eyebrow: direction:rtl inherited from parent makes flex flow right→left,
+   so the rule lands on the right and text to its left — correct for Arabic.
+   Do NOT add row-reverse (that would cancel the RTL and push items left). */
 html[dir="rtl"] .about-eyebrow {
-  flex-direction: row-reverse;
+  direction: rtl;
 }
 html[dir="rtl"] .about-pillars {
   direction: rtl;
