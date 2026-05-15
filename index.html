@@ -788,21 +788,23 @@
 <!-- ══ Floating Chatbot Widget ══ -->
 <div class="chatbot-widget" id="chatbotWidget">
 
-  <!-- Floating trigger button -->
-  <button class="chatbot-fab" id="chatbotFab" aria-label="Open chat" aria-expanded="false">
-    <img src="assets/Saeed-bot.png" alt="" class="chatbot-fab-img" aria-hidden="true" />
+  <!-- Floating trigger button — uses said.svg (already circular with navy bg) -->
+  <button class="chatbot-fab" id="chatbotFab" aria-label="Open chat with Said" aria-expanded="false">
+    <img src="assets/said.svg" alt="Said — MAQAR Assistant" class="chatbot-fab-img" />
     <span class="chatbot-fab-ping" aria-hidden="true"></span>
   </button>
 
   <!-- Chat popup panel -->
-  <div class="chatbot-panel" id="chatbotPanel" aria-hidden="true" role="dialog" aria-label="MAQAR Chat Assistant">
+  <div class="chatbot-panel" id="chatbotPanel" aria-hidden="true" role="dialog" aria-label="Said — MAQAR Chat Assistant">
+
+    <!-- Header -->
     <div class="chatbot-header">
       <div class="chatbot-header-avatar">
-        <img src="assets/Saeed-bot.png" alt="" aria-hidden="true" />
+        <img src="assets/said.svg" alt="" aria-hidden="true" />
       </div>
       <div class="chatbot-header-info">
-        <strong>MAQAR Assistant</strong>
-        <span>Ask me anything about the studio</span>
+        <strong>Said</strong>
+        <span>MAQAR Studio Assistant</span>
       </div>
       <button class="chatbot-close" id="chatbotClose" aria-label="Close chat">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -811,10 +813,15 @@
       </button>
     </div>
 
-    <div class="chatbot-messages" id="chatbotMessages" aria-live="polite" aria-atomic="false">
-      <!-- Messages injected by JS -->
+    <!-- Body: Said stands here, messages scroll above him -->
+    <div class="chatbot-body">
+      <img class="chatbot-said-standing" src="assets/said-standing.svg" alt="" aria-hidden="true" />
+      <div class="chatbot-messages" id="chatbotMessages" aria-live="polite" aria-atomic="false">
+        <!-- Messages injected by JS -->
+      </div>
     </div>
 
+    <!-- Quick replies -->
     <div class="chatbot-quick-btns" id="chatbotQuickBtns">
       <button class="chatbot-quick" data-msg="What services do you offer?">Services</button>
       <button class="chatbot-quick" data-msg="How can I contact you?">Contact</button>
@@ -822,14 +829,16 @@
       <button class="chatbot-quick" data-msg="Are you hiring?">Careers</button>
     </div>
 
+    <!-- Input -->
     <form class="chatbot-input-row" id="chatbotForm" novalidate>
-      <input class="chatbot-input" id="chatbotInput" type="text" placeholder="Type a message…" autocomplete="off" aria-label="Chat message" maxlength="300" />
+      <input class="chatbot-input" id="chatbotInput" type="text" placeholder="Ask Said anything…" autocomplete="off" aria-label="Chat message" maxlength="300" />
       <button class="chatbot-send" type="submit" aria-label="Send">
         <svg width="18" height="16" viewBox="0 0 18 16" fill="none" aria-hidden="true">
           <path d="M1 8h14M10 2l6 6-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/>
         </svg>
       </button>
     </form>
+
   </div>
 
 </div>
