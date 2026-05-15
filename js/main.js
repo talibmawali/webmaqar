@@ -1160,14 +1160,16 @@ const MEDIA = {
       modalCaps.innerHTML     = a.caps.map(c => `<li>${c}</li>`).join('');
       modal.setAttribute('aria-hidden', 'false');
       modal.classList.add('is-open');
-      document.body.classList.add('modal-open');
+      // Lock scroll WITHOUT adding body.modal-open — that class hides the
+      // custom cursor diamond and leaves cursor:none with nothing visible.
+      document.body.style.overflow = 'hidden';
       closeBtn.focus();
     };
 
     const closeAgent = () => {
       modal.classList.remove('is-open');
       modal.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('modal-open');
+      document.body.style.overflow = '';
     };
 
     // Bind each agent card
