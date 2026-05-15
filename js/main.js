@@ -1383,6 +1383,30 @@ const MEDIA = {
         if (ping) ping.classList.add('is-visible');
       }
     }, 3000);
+
+    // ── Mobile keyboard: keep chatbot panel above the keyboard ──
+    // When the soft keyboard opens the visual viewport shrinks.
+    // We raise the panel and shrink its height so it stays fully visible.
+    if ('visualViewport' in window) {
+      const onViewportResize = () => {
+        if (!isOpen) return;
+        const vv          = window.visualViewport;
+        const keyboardH   = window.innerHeight - vv.height - vv.offsetTop;
+        if (keyboardH > 80) {
+          // Keyboard is open — lift panel above it
+          panel.style.bottom    = `${keyboardH + 6}px`;
+          panel.style.height    = `${vv.height - 72}px`;
+          panel.style.maxHeight = 'none';
+        } else {
+          // Keyboard closed — reset to CSS defaults
+          panel.style.bottom    = '';
+          panel.style.height    = '';
+          panel.style.maxHeight = '';
+        }
+      };
+      window.visualViewport.addEventListener('resize', onViewportResize);
+      window.visualViewport.addEventListener('scroll', onViewportResize);
+    }
   })();
 
 })();
