@@ -1409,4 +1409,103 @@ const MEDIA = {
     }
   })();
 
+  /* ════════════════════════════════════════════════════════════
+     LANGUAGE SWITCH — TEST (intro title + about section only)
+     Toggle with the EN | عر button in the nav.
+     localStorage key: 'maqar-lang'  ('en' | 'ar')
+     To undo everything: remove the JS block below +
+       the CSS under "LANGUAGE SWITCH" + the HTML <button.lang-switch>.
+     ════════════════════════════════════════════════════════════ */
+  (() => {
+    const btn = document.getElementById('langSwitch');
+    if (!btn) return;
+
+    /* ── Translation map (selector → {text} or {html}) ─────── */
+    const T = {
+      en: {
+        /* Intro */
+        '.intro-mark-line'                    : { text: 'Architectural' },
+        '.intro-tagline'                      : { text: 'Space. Craft. Vision.' },
+        '.intro-sub'                          : { text: 'Building spaces that reflect our values.' },
+        '.intro-scroll-hint small'            : { text: 'Scroll' },
+        /* About eyebrow */
+        '.about .about-eyebrow span:last-child': { text: '01 — About the Studio' },
+        /* About heading */
+        '.about-heading': { html: 'A multidisciplinary studio rooted in <em>architecture</em>, expanded into the <em>digital</em> and <em>graphic</em> realm.' },
+        /* About paragraphs */
+        '.about-body p:first-child': { text: 'MAQAR is a multidisciplinary design studio rooted in architecture and expanded into the digital and graphic realm. We design spaces, identities, and experiences that are precise, considered, and enduring.' },
+        '.about-body p:last-child' : { text: 'Our practice blends Omani heritage with contemporary craft — folding tradition into form, the way an origami sheet becomes architecture. Every project is an exercise in balance: between past and present, material and meaning, rigour and warmth.' },
+        /* About pillars */
+        '.about-pillars li:nth-child(1) strong': { text: 'Creative' },
+        '.about-pillars li:nth-child(1) span'  : { text: '& Inspiring' },
+        '.about-pillars li:nth-child(2) strong': { text: 'Collaborative' },
+        '.about-pillars li:nth-child(2) span'  : { text: '& Supportive' },
+        '.about-pillars li:nth-child(3) strong': { text: 'Expressive' },
+        '.about-pillars li:nth-child(3) span'  : { text: '& Renewed' },
+      },
+      ar: {
+        /* Intro */
+        '.intro-mark-line'                    : { text: 'معماري' },
+        '.intro-tagline'                      : { text: 'المكان. الحرفة. الرؤية.' },
+        '.intro-sub'                          : { text: 'نبني فضاءات تعكس قيمنا.' },
+        '.intro-scroll-hint small'            : { text: 'تمرير' },
+        /* About eyebrow */
+        '.about .about-eyebrow span:last-child': { text: '٠١ — عن الاستوديو' },
+        /* About heading */
+        '.about-heading': { html: 'استوديو متعدد التخصصات متجذر في <em>العمارة</em>، ممتداً إلى عالم <em>الرقميات</em> و<em>الجرافيكس</em>.' },
+        /* About paragraphs */
+        '.about-body p:first-child': { text: 'ماقار هو استوديو تصميم متعدد التخصصات، متجذر في العمارة ومنفتح على عالم الرقميات والجرافيكس. نصمم فضاءات وهويات وتجارب تتسم بالدقة والعمق والديمومة.' },
+        '.about-body p:last-child' : { text: 'يمزج عملنا بين التراث العُماني والحرفة المعاصرة — نطوي التقاليد في الأشكال، كما يتحوّل الورق إلى عمارة. كل مشروع هو تمرين في التوازن: بين الماضي والحاضر، المادة والمعنى، الصرامة والدفء.' },
+        /* About pillars */
+        '.about-pillars li:nth-child(1) strong': { text: 'مبدع' },
+        '.about-pillars li:nth-child(1) span'  : { text: 'وملهم' },
+        '.about-pillars li:nth-child(2) strong': { text: 'تعاوني' },
+        '.about-pillars li:nth-child(2) span'  : { text: 'وداعم' },
+        '.about-pillars li:nth-child(3) strong': { text: 'معبّر' },
+        '.about-pillars li:nth-child(3) span'  : { text: 'ومتجدد' },
+      },
+    };
+
+    /* ── Apply a language ────────────────────────────────────── */
+    const applyLang = (lang) => {
+      const map = T[lang];
+      if (!map) return;
+
+      Object.entries(map).forEach(([selector, val]) => {
+        const el = document.querySelector(selector);
+        if (!el) return;
+        if (val.html !== undefined) el.innerHTML = val.html;
+        else el.textContent = val.text;
+      });
+
+      /* RTL / LTR */
+      const html = document.documentElement;
+      if (lang === 'ar') {
+        html.setAttribute('dir', 'rtl');
+        html.setAttribute('lang', 'ar');
+      } else {
+        html.setAttribute('dir', 'ltr');
+        html.setAttribute('lang', 'en');
+      }
+
+      /* Update button active state */
+      btn.dataset.lang = lang;
+
+      /* Persist */
+      try { localStorage.setItem('maqar-lang', lang); } catch (_) {}
+    };
+
+    /* ── Toggle on click ─────────────────────────────────────── */
+    btn.addEventListener('click', () => {
+      const next = btn.dataset.lang === 'en' ? 'ar' : 'en';
+      applyLang(next);
+    });
+
+    /* ── Restore saved preference on load ────────────────────── */
+    try {
+      const saved = localStorage.getItem('maqar-lang');
+      if (saved && saved !== 'en') applyLang(saved);
+    } catch (_) {}
+  })();
+
 })();

@@ -2461,3 +2461,96 @@ body.modal-open .cursor-diamond { opacity: 0 !important; }
     border-radius: 16px;
   }
 }
+
+/* ============================================================
+   LANGUAGE SWITCH
+   ============================================================ */
+
+/* ── Toggle button ────────────────────────────────────────── */
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1.5px solid var(--c-line);
+  border-radius: 20px;
+  padding: 4px 11px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--c-ink-soft);
+  cursor: pointer;
+  background: transparent;
+  transition: border-color 0.18s, color 0.18s;
+  flex-shrink: 0;
+}
+.lang-switch:hover {
+  border-color: var(--c-rust);
+  color: var(--c-ink);
+}
+.lang-sep { opacity: 0.35; font-weight: 300; }
+.lang-opt { transition: color 0.18s, font-weight 0.18s; }
+
+/* Active language highlight */
+.lang-switch[data-lang="en"] .lang-opt[data-for="en"],
+.lang-switch[data-lang="ar"] .lang-opt[data-for="ar"] {
+  font-weight: 700;
+  color: var(--c-rust);
+}
+
+/* ── Arabic / RTL overrides (TEST: intro + about only) ───── */
+html[dir="rtl"] {
+  /* Promote Brando Arabic to first position in the stack */
+  --ff-sans: "Brando Arabic", "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* Nav flips — logo stays left, links + controls stay right → reversed */
+html[dir="rtl"] .nav {
+  flex-direction: row-reverse;
+}
+html[dir="rtl"] .nav-links {
+  flex-direction: row-reverse;
+}
+
+/* Intro text — right-align */
+html[dir="rtl"] .intro-overlay {
+  align-items: flex-end;
+  text-align: right;
+}
+html[dir="rtl"] .intro-mark {
+  align-items: flex-end;
+}
+html[dir="rtl"] .intro-scroll-hint {
+  align-self: flex-end;
+}
+
+/* About section */
+html[dir="rtl"] .about-grid {
+  direction: rtl;
+  text-align: right;
+}
+html[dir="rtl"] .about-eyebrow {
+  flex-direction: row-reverse;
+}
+html[dir="rtl"] .about-pillars {
+  direction: rtl;
+}
+html[dir="rtl"] .about-pillars li {
+  text-align: right;
+}
+
+/* Mobile drawer flips */
+html[dir="rtl"] .nav-drawer {
+  right: auto;
+  left: 0;
+  transform: translateX(-100%);
+}
+html[dir="rtl"] .nav-drawer.is-open {
+  transform: translateX(0);
+}
+html[dir="rtl"] .nav-drawer a {
+  text-align: right;
+  transform: translateX(28px);
+}
+html[dir="rtl"] .nav-drawer.is-open a {
+  transform: translateX(0);
+}
