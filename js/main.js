@@ -1178,6 +1178,17 @@ const MEDIA = {
     const addMessage = (html, role /* 'bot' | 'user' */, animate = true) => {
       const wrap = document.createElement('div');
       wrap.className = `chatbot-msg chatbot-msg--${role}${animate ? ' chatbot-msg--in' : ''}`;
+
+      // Said's avatar sits beside every bot bubble
+      if (role === 'bot') {
+        const av = document.createElement('img');
+        av.src = 'assets/said.svg';
+        av.className = 'chatbot-msg-avatar';
+        av.alt = '';
+        av.setAttribute('aria-hidden', 'true');
+        wrap.appendChild(av);
+      }
+
       const bubble = document.createElement('div');
       bubble.className = 'chatbot-bubble';
       bubble.innerHTML = html;
@@ -1203,7 +1214,16 @@ const MEDIA = {
       const wrap = document.createElement('div');
       wrap.className = 'chatbot-msg chatbot-msg--bot chatbot-msg--typing chatbot-msg--in';
       wrap.id = 'chatbotTyping';
-      wrap.innerHTML = '<div class="chatbot-bubble"><span class="chatbot-dot"></span><span class="chatbot-dot"></span><span class="chatbot-dot"></span></div>';
+      const av = document.createElement('img');
+      av.src = 'assets/said.svg';
+      av.className = 'chatbot-msg-avatar';
+      av.alt = '';
+      av.setAttribute('aria-hidden', 'true');
+      wrap.appendChild(av);
+      const bbl = document.createElement('div');
+      bbl.className = 'chatbot-bubble';
+      bbl.innerHTML = '<span class="chatbot-dot"></span><span class="chatbot-dot"></span><span class="chatbot-dot"></span>';
+      wrap.appendChild(bbl);
       messages.appendChild(wrap);
       messages.scrollTop = messages.scrollHeight;
     };

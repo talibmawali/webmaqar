@@ -1856,11 +1856,11 @@ body.modal-open .cursor-diamond { opacity: 0 !important; }
   border: none;
   padding: 0;
   cursor: pointer;
-  background: transparent;            /* said.svg has its own navy bg */
+  background: transparent;
   box-shadow: 0 4px 24px rgba(15,43,76,0.38);
   transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
               box-shadow 0.25s var(--ease);
-  overflow: hidden;                   /* keep svg clipped to circle */
+  overflow: visible;                  /* ping badge must escape the circle */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1872,25 +1872,28 @@ body.modal-open .cursor-diamond { opacity: 0 !important; }
 }
 .chatbot-fab.is-open { transform: scale(0.9); }
 
-/* said.svg fills the button perfectly */
+/* said.svg clips itself to a circle internally — no overflow needed */
 .chatbot-fab-img {
-  width: 100%;
-  height: 100%;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;                 /* safety clip for browsers */
   object-fit: cover;
   display: block;
   pointer-events: none;
+  flex-shrink: 0;
 }
 
-/* Animated ping badge */
+/* Animated ping badge — sits outside the image, visible because overflow:visible */
 .chatbot-fab-ping {
   display: none;
   position: absolute;
-  top: 3px; right: 3px;
-  width: 14px; height: 14px;
+  top: -3px; right: -3px;            /* badge peeks outside the circle */
+  width: 16px; height: 16px;
   border-radius: 50%;
   background: var(--c-rust);
-  border: 2px solid var(--c-bg);
+  border: 2.5px solid var(--c-bg);
   pointer-events: none;
+  z-index: 1;
 }
 .chatbot-fab-ping.is-visible {
   display: block;
@@ -1898,7 +1901,7 @@ body.modal-open .cursor-diamond { opacity: 0 !important; }
 }
 @keyframes chatbot-ping {
   0%, 100% { transform: scale(1); opacity: 1; }
-  50%       { transform: scale(1.4); opacity: 0.65; }
+  50%       { transform: scale(1.45); opacity: 0.7; }
 }
 
 /* ── Chat panel ─────────────────────────────────────────────── */
@@ -1970,53 +1973,35 @@ body.modal-open .cursor-diamond { opacity: 0 !important; }
 }
 .chatbot-close:hover { color: #fff; background: rgba(255,255,255,0.1); }
 
-/* ── Body: Said stands here, messages scroll above him ─────── */
-.chatbot-body {
-  position: relative;
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  /* subtle navy-to-white gradient so Said "stands" on solid ground */
-  background: linear-gradient(to top, rgba(15,43,76,0.06) 0%, #fff 42%);
-}
-
-/* Said standing — anchored bottom-right, partially cropped at top */
-.chatbot-said-standing {
-  position: absolute;
-  bottom: 0;
-  right: -4px;                        /* slight bleed off right edge */
-  width: 115px;                       /* 115 × (400/214) ≈ 215px tall */
-  height: auto;
-  pointer-events: none;
-  z-index: 0;
-  filter: drop-shadow(-4px 0 16px rgba(15,43,76,0.12));
-  animation: said-idle 4s ease-in-out infinite;
-}
-@keyframes said-idle {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-5px); }
-}
-
-/* Messages scroll above Said; right-side padding keeps text off him */
+/* ── Messages ───────────────────────────────────────────────── */
 .chatbot-messages {
-  position: relative;
-  z-index: 1;
   flex: 1;
   overflow-y: auto;
-  padding: 14px 130px 14px 14px;      /* 130px right gap = Said's width */
+  padding: 14px 14px 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   scroll-behavior: smooth;
+  background: #fff;
 }
 .chatbot-messages::-webkit-scrollbar { width: 3px; }
 .chatbot-messages::-webkit-scrollbar-thumb { background: var(--c-line); border-radius: 2px; }
 
 /* Message rows */
-.chatbot-msg { display: flex; max-width: 100%; }
-.chatbot-msg--bot  { align-self: flex-start; max-width: 88%; }
+.chatbot-msg { display: flex; align-items: flex-end; gap: 8px; }
+.chatbot-msg--bot  { align-self: flex-start; max-width: 88%; flex-direction: row; }
 .chatbot-msg--user { align-self: flex-end;   max-width: 78%; flex-direction: row-reverse; }
+
+/* Said's avatar — shown beside every bot bubble */
+.chatbot-msg-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  display: block;
+  align-self: flex-end;               /* sits at bottom of the bubble */
+}
 .chatbot-msg--in   { animation: chatbot-slide-in 0.24s var(--ease) both; }
 @keyframes chatbot-slide-in {
   from { opacity: 0; transform: translateY(10px); }
@@ -2111,12 +2096,11 @@ body.modal-open .cursor-diamond { opacity: 0 !important; }
 /* ── Mobile ─────────────────────────────────────────────── */
 @media (max-width: 480px) {
   .chatbot-fab { bottom: 18px; right: 18px; width: 60px; height: 60px; }
+  .chatbot-fab-img { width: 60px; height: 60px; }
   .chatbot-panel {
     bottom: 90px; right: 10px; left: 10px;
     width: auto;
     height: min(520px, calc(100vh - 120px));
     border-radius: 16px;
   }
-  .chatbot-said-standing { width: 95px; }
-  .chatbot-messages { padding-right: 108px; }
 }
