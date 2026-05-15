@@ -26,6 +26,7 @@
     <a href="#work" data-link>Work</a>
     <a href="#services" data-link>Services</a>
     <a href="#achievements" data-link>Achievements</a>
+    <a href="#agents" data-link>AI Agents</a>
     <a href="#careers" data-link>Careers</a>
     <a href="#contact" data-link>Contact</a>
   </nav>
@@ -48,6 +49,7 @@
   <a href="#work"         data-link data-drawer-link>Work</a>
   <a href="#services"     data-link data-drawer-link>Services</a>
   <a href="#achievements" data-link data-drawer-link>Achievements</a>
+  <a href="#agents"       data-link data-drawer-link>AI Agents</a>
   <a href="#careers"      data-link data-drawer-link>Careers</a>
   <a href="#contact"      data-link data-drawer-link>Contact</a>
 </div>
@@ -629,6 +631,81 @@
 
   </div>
 </section>
+
+<!-- ============== SECTION 5.5 — AI AGENTS ============== -->
+<section class="agents" id="agents">
+  <div class="agents-inner">
+
+    <div class="agents-head">
+      <div class="about-eyebrow reveal" data-on-dark>
+        <span class="rule"></span>
+        <span>AI — Agents</span>
+      </div>
+      <h2 class="agents-heading reveal">The intelligent<br>side of <em>MAQAR</em>.</h2>
+      <p class="agents-sub reveal">We are bringing AI into architecture — deploying intelligent agents to serve our clients faster, smarter, and around the clock. Meet the team that never sleeps.</p>
+    </div>
+
+    <div class="agents-grid">
+
+      <!-- Maryam — Finance Agent -->
+      <button class="agent-card reveal" data-agent="maryam" aria-label="Meet Maryam, Finance Agent — click to view capabilities">
+        <div class="agent-card-glow" aria-hidden="true"></div>
+        <span class="agent-badge" aria-hidden="true">
+          <span class="agent-badge-dot"></span>Online
+        </span>
+        <img class="agent-img" src="assets/Maryam-Agent.svg" alt="" aria-hidden="true" />
+        <div class="agent-foot">
+          <strong class="agent-name">Maryam</strong>
+          <span class="agent-role">Finance Agent</span>
+          <span class="agent-cta">View capabilities →</span>
+        </div>
+      </button>
+
+      <!-- Yarab — Marketing Agent -->
+      <button class="agent-card reveal" data-agent="yarab" aria-label="Meet Yarab, Marketing Agent — click to view capabilities">
+        <div class="agent-card-glow" aria-hidden="true"></div>
+        <span class="agent-badge" aria-hidden="true">
+          <span class="agent-badge-dot"></span>Online
+        </span>
+        <img class="agent-img" src="assets/Yarab-Agent.svg" alt="" aria-hidden="true" />
+        <div class="agent-foot">
+          <strong class="agent-name">Yarab</strong>
+          <span class="agent-role">Marketing Agent</span>
+          <span class="agent-cta">View capabilities →</span>
+        </div>
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ Agent capabilities modal ══ -->
+<div class="agent-modal" id="agentModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="agent-modal-backdrop" id="agentModalBackdrop"></div>
+  <div class="agent-modal-inner" id="agentModalInner">
+
+    <button class="agent-modal-close" id="agentModalClose" aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+      </svg>
+    </button>
+
+    <div class="agent-modal-left">
+      <img class="agent-modal-img" id="agentModalImg" src="" alt="" />
+    </div>
+
+    <div class="agent-modal-right">
+      <span class="agent-badge agent-badge--lg">
+        <span class="agent-badge-dot"></span>AI Agent · Online
+      </span>
+      <strong class="agent-modal-name" id="agentModalName"></strong>
+      <span class="agent-modal-role" id="agentModalRole"></span>
+      <p class="agent-modal-desc" id="agentModalDesc"></p>
+      <ul class="agent-modal-caps" id="agentModalCaps"></ul>
+    </div>
+
+  </div>
+</div>
 
 <!-- ============== SECTION 6 — CAREERS ============== -->
 <section class="careers" id="careers">

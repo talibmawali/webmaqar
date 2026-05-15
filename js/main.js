@@ -1104,6 +1104,85 @@ const MEDIA = {
   });
 
   /* ------------------------------------------------------------
+     10) AI Agents — Maryam & Yarab
+     ------------------------------------------------------------ */
+  (() => {
+    const AGENTS = {
+      maryam: {
+        name    : 'Maryam',
+        role    : 'Finance Agent',
+        img     : 'assets/Maryam-Agent.svg',
+        desc    : 'Maryam is MAQAR\'s intelligent finance agent — built to handle numbers, packages, and financial detail so our architects can stay focused on design.',
+        caps    : [
+          'Creates detailed financial analysis and project cost breakdowns',
+          'Prepares custom quotations and pricing proposals for clients',
+          'Builds tiered service packages tailored to any budget',
+          'Generates financial feasibility reports for architectural projects',
+          'Tracks project budgets and flags cost variations in real time',
+          'Prepares invoices, payment schedules, and financial summaries automatically',
+        ],
+      },
+      yarab: {
+        name    : 'Yarab',
+        role    : 'Marketing Agent',
+        img     : 'assets/Yarab-Agent.svg',
+        desc    : 'Yarab is MAQAR\'s client-facing marketing agent — always available to understand your vision, represent the studio, and keep every conversation moving forward.',
+        caps    : [
+          'Engages directly with clients to understand their requirements and brief the design team',
+          'Answers emails and enquiries on behalf of the studio, 24 hours a day',
+          'Manages and responds to DMs across Instagram, LinkedIn, and other social platforms',
+          'Qualifies leads and prepares structured client briefs ready for the architects',
+          'Schedules meetings, follow-ups, and reminders with prospective clients',
+          'Maintains a consistent MAQAR brand voice across every channel and conversation',
+        ],
+      },
+    };
+
+    const modal      = document.getElementById('agentModal');
+    const backdrop   = document.getElementById('agentModalBackdrop');
+    const closeBtn   = document.getElementById('agentModalClose');
+    const modalImg   = document.getElementById('agentModalImg');
+    const modalName  = document.getElementById('agentModalName');
+    const modalRole  = document.getElementById('agentModalRole');
+    const modalDesc  = document.getElementById('agentModalDesc');
+    const modalCaps  = document.getElementById('agentModalCaps');
+
+    if (!modal) return;
+
+    const openAgent = (key) => {
+      const a = AGENTS[key];
+      if (!a) return;
+      modalImg.src            = a.img;
+      modalImg.alt            = a.name;
+      modalName.textContent   = a.name;
+      modalRole.textContent   = a.role;
+      modalDesc.textContent   = a.desc;
+      modalCaps.innerHTML     = a.caps.map(c => `<li>${c}</li>`).join('');
+      modal.setAttribute('aria-hidden', 'false');
+      modal.classList.add('is-open');
+      document.body.classList.add('modal-open');
+      closeBtn.focus();
+    };
+
+    const closeAgent = () => {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('modal-open');
+    };
+
+    // Bind each agent card
+    document.querySelectorAll('.agent-card[data-agent]').forEach(card => {
+      card.addEventListener('click', () => openAgent(card.dataset.agent));
+    });
+
+    closeBtn.addEventListener('click', closeAgent);
+    backdrop.addEventListener('click', closeAgent);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeAgent();
+    });
+  })();
+
+  /* ------------------------------------------------------------
      10) Floating chatbot widget
      ------------------------------------------------------------ */
   (() => {
