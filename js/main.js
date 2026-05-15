@@ -1111,8 +1111,10 @@ const MEDIA = {
       maryam: {
         name    : 'Maryam',
         role    : 'Finance Agent',
+        roleAr  : 'وكيلة المالية',
         img     : 'assets/Maryam-Agent.svg',
         desc    : 'Maryam is MAQAR\'s intelligent finance agent — built to handle numbers, packages, and financial detail so our architects can stay focused on design.',
+        descAr  : 'مريم هي وكيلة الذكاء الاصطناعي المالية لدى ماقار — مصمَّمة للتعامل مع الأرقام والحزم والتفاصيل المالية حتى يتفرغ مهندسونا للإبداع.',
         caps    : [
           'Creates detailed financial analysis and project cost breakdowns',
           'Prepares custom quotations and pricing proposals for clients',
@@ -1121,12 +1123,22 @@ const MEDIA = {
           'Tracks project budgets and flags cost variations in real time',
           'Prepares invoices, payment schedules, and financial summaries automatically',
         ],
+        capsAr  : [
+          'إنشاء تحليلات مالية تفصيلية وتقسيمات تكلفة المشاريع',
+          'إعداد عروض أسعار وعروض تسعير مخصصة للعملاء',
+          'بناء حزم خدمات متدرجة تتناسب مع كل ميزانية',
+          'إنتاج تقارير الجدوى المالية للمشاريع المعمارية',
+          'متابعة ميزانيات المشاريع ورصد تفاوتات التكلفة في الوقت الفعلي',
+          'إعداد الفواتير وجداول الدفع والملخصات المالية تلقائياً',
+        ],
       },
       yarab: {
         name    : 'Yarab',
         role    : 'Marketing Agent',
+        roleAr  : 'وكيل التسويق',
         img     : 'assets/Yarab-Agent.svg',
         desc    : 'Yarab is MAQAR\'s client-facing marketing agent — always available to understand your vision, represent the studio, and keep every conversation moving forward.',
+        descAr  : 'يراب هو وكيل التسويق المواجِه للعملاء في ماقار — متاح دائماً لفهم رؤيتك وتمثيل الاستوديو وإبقاء كل محادثة في مسارها الصحيح.',
         caps    : [
           'Engages directly with clients to understand their requirements and brief the design team',
           'Answers emails and enquiries on behalf of the studio, 24 hours a day',
@@ -1134,6 +1146,14 @@ const MEDIA = {
           'Qualifies leads and prepares structured client briefs ready for the architects',
           'Schedules meetings, follow-ups, and reminders with prospective clients',
           'Maintains a consistent MAQAR brand voice across every channel and conversation',
+        ],
+        capsAr  : [
+          'التواصل المباشر مع العملاء لفهم متطلباتهم وإحاطة فريق التصميم',
+          'الرد على الرسائل الإلكترونية والاستفسارات نيابةً عن الاستوديو، على مدار الساعة',
+          'إدارة الرد على رسائل إنستغرام ولينكدإن ومنصات التواصل الأخرى',
+          'تأهيل العملاء المحتملين وإعداد ملخصات منظمة جاهزة للمهندسين',
+          'جدولة الاجتماعات والمتابعات والتذكيرات مع العملاء المحتملين',
+          'الحفاظ على صوت ماقار المتسق عبر كل قناة ومحادثة',
         ],
       },
     };
@@ -1152,12 +1172,14 @@ const MEDIA = {
     const openAgent = (key) => {
       const a = AGENTS[key];
       if (!a) return;
+      const isAr = document.documentElement.getAttribute('dir') === 'rtl';
       modalImg.src            = a.img;
       modalImg.alt            = a.name;
       modalName.textContent   = a.name;
-      modalRole.textContent   = a.role;
-      modalDesc.textContent   = a.desc;
-      modalCaps.innerHTML     = a.caps.map(c => `<li>${c}</li>`).join('');
+      modalRole.textContent   = isAr ? (a.roleAr || a.role) : a.role;
+      modalDesc.textContent   = isAr ? (a.descAr || a.desc) : a.desc;
+      const caps              = isAr ? (a.capsAr || a.caps) : a.caps;
+      modalCaps.innerHTML     = caps.map(c => `<li>${c}</li>`).join('');
       modal.setAttribute('aria-hidden', 'false');
       modal.classList.add('is-open');
       // Lock scroll WITHOUT adding body.modal-open — that class hides the
@@ -1410,95 +1432,379 @@ const MEDIA = {
   })();
 
   /* ════════════════════════════════════════════════════════════
-     LANGUAGE SWITCH — TEST (intro title + about section only)
+     LANGUAGE SWITCH — Full site (EN ↔ AR)
      Toggle with the EN | عر button in the nav.
      localStorage key: 'maqar-lang'  ('en' | 'ar')
-     To undo everything: remove the JS block below +
-       the CSS under "LANGUAGE SWITCH" + the HTML <button.lang-switch>.
+     To undo: remove this block + CSS "LANGUAGE SWITCH" section
+              + the <button.lang-switch> in index.html.
      ════════════════════════════════════════════════════════════ */
   (() => {
     const btn = document.getElementById('langSwitch');
     if (!btn) return;
 
-    /* ── Translation map (selector → {text} or {html}) ─────── */
+    /* ── Single-element translations: selector → {text} or {html} ── */
     const T = {
       en: {
-        /* Intro */
-        '.intro-mark-line'                    : { text: 'Architectural' },
-        '.intro-tagline'                      : { text: 'Space. Craft. Vision.' },
-        '.intro-sub'                          : { text: 'Building spaces that reflect our values.' },
-        '.intro-scroll-hint small'            : { text: 'Scroll' },
-        /* About eyebrow */
+        /* ── Nav (desktop) ── */
+        '.nav-links a[href="#about"]'       : { text: 'About' },
+        '.nav-links a[href="#work"]'        : { text: 'Work' },
+        '.nav-links a[href="#services"]'    : { text: 'Services' },
+        '.nav-links a[href="#achievements"]': { text: 'Achievements' },
+        '.nav-links a[href="#agents"]'      : { text: 'AI Agents' },
+        '.nav-links a[href="#careers"]'     : { text: 'Careers' },
+        '.nav-links a[href="#contact"]'     : { text: 'Contact' },
+        /* ── Nav (drawer) ── */
+        '.nav-drawer a[href="#about"]'       : { text: 'About' },
+        '.nav-drawer a[href="#work"]'        : { text: 'Work' },
+        '.nav-drawer a[href="#services"]'    : { text: 'Services' },
+        '.nav-drawer a[href="#achievements"]': { text: 'Achievements' },
+        '.nav-drawer a[href="#agents"]'      : { text: 'AI Agents' },
+        '.nav-drawer a[href="#careers"]'     : { text: 'Careers' },
+        '.nav-drawer a[href="#contact"]'     : { text: 'Contact' },
+        /* ── Intro ── */
+        '.intro-mark-line'        : { text: 'Architectural' },
+        '.intro-tagline'          : { text: 'Space. Craft. Vision.' },
+        '.intro-sub'              : { text: 'Building spaces that reflect our values.' },
+        '.intro-scroll-hint small': { text: 'Scroll' },
+        /* ── About ── */
         '.about .about-eyebrow span:last-child': { text: '01 — About the Studio' },
-        /* About heading */
         '.about-heading': { html: 'A multidisciplinary studio rooted in <em>architecture</em>, expanded into the <em>digital</em> and <em>graphic</em> realm.' },
-        /* About paragraphs */
         '.about-body p:first-child': { text: 'MAQAR is a multidisciplinary design studio rooted in architecture and expanded into the digital and graphic realm. We design spaces, identities, and experiences that are precise, considered, and enduring.' },
         '.about-body p:last-child' : { text: 'Our practice blends Omani heritage with contemporary craft — folding tradition into form, the way an origami sheet becomes architecture. Every project is an exercise in balance: between past and present, material and meaning, rigour and warmth.' },
-        /* About pillars */
         '.about-pillars li:nth-child(1) strong': { text: 'Creative' },
         '.about-pillars li:nth-child(1) span'  : { text: '& Inspiring' },
         '.about-pillars li:nth-child(2) strong': { text: 'Collaborative' },
         '.about-pillars li:nth-child(2) span'  : { text: '& Supportive' },
         '.about-pillars li:nth-child(3) strong': { text: 'Expressive' },
         '.about-pillars li:nth-child(3) span'  : { text: '& Renewed' },
+        /* ── Sultan Haitham quote ── */
+        '#quote-sultan .about-eyebrow span:last-child': { text: 'Vision for Oman' },
+        '#quote-sultan .quote-mark-en'   : { text: 'Oman Vision 2040' },
+        '#quote-sultan .quote-tagline'   : { text: 'A future rooted in heritage, shaped by ambition.' },
+        '#quote-sultan .quote-text'      : { html: '<span class="qm qm-open" aria-hidden="true">&ldquo;</span>We are building an Oman whose authenticity walks hand-in-hand with modernity &mdash; where every space, every façade, and every public realm tells the story of our people, our land, and the future we are shaping together.<span class="qm qm-close" aria-hidden="true">&rdquo;</span>' },
+        '#quote-sultan .quote-attrib-name span': { text: 'Sultan of Oman — drawing from Oman Vision 2040' },
+        '#quote-sultan .quote-attrib-loc': { text: 'Sultanate of Oman' },
+        /* ── CEO quote ── */
+        '#quote .about-eyebrow span:last-child': { text: '02 — A word from the CEO' },
+        '#quote .quote-tagline'   : { text: '100% Omani Architecture Studio' },
+        '#quote .quote-text'      : { html: '<span class="qm qm-open" aria-hidden="true">&ldquo;</span>Architecture is not just about building structures &mdash; it is about shaping identity. At Maqar Studio, every line we draw carries the soul of Oman: its heritage, its land, and the ambition of its people. We build with pride because this is our homeland.<span class="qm qm-close" aria-hidden="true">&rdquo;</span>' },
+        '#quote .quote-attrib-name span': { text: 'Chief Executive Officer, Maqar Studio' },
+        '#quote .quote-attrib-loc': { text: 'Muscat, Oman' },
+        /* ── COO quote ── */
+        '#quote-coo .about-eyebrow span:last-child': { text: '02 — A word from the COO' },
+        '#quote-coo .quote-tagline'   : { text: '100% Omani Architecture Studio' },
+        '#quote-coo .quote-text'      : { html: '<span class="qm qm-open" aria-hidden="true">&ldquo;</span>True design is born from listening &mdash; to the land, to the community, and to the generations that came before us. At Maqar Studio, we do not simply design spaces; we craft experiences that honor Omani culture while embracing the future. Every project is a conversation between where we come from and where we are going.<span class="qm qm-close" aria-hidden="true">&rdquo;</span>' },
+        '#quote-coo .quote-attrib-name span': { text: 'Chief Operating Officer, Maqar Studio' },
+        '#quote-coo .quote-attrib-loc': { text: 'Muscat, Oman' },
+        /* ── CMO quote ── */
+        '#quote-exec3 .about-eyebrow span:last-child': { text: '02 — A word from our team' },
+        '#quote-exec3 .quote-tagline'   : { text: '100% Omani Architecture Studio' },
+        '#quote-exec3 .quote-text'      : { html: '<span class="qm qm-open" aria-hidden="true">&ldquo;</span>A brand is not what you say it is &mdash; it is what people feel when they walk through your door. At Maqar Studio, our story is written in every facade, every courtyard, and every detail that whispers Oman. Our mission is to make the world see what we have always known: that Omani design is world-class, timeless, and deeply human.<span class="qm qm-close" aria-hidden="true">&rdquo;</span>' },
+        '#quote-exec3 .quote-attrib-name span': { text: 'Chief Marketing Officer, Maqar Studio' },
+        '#quote-exec3 .quote-attrib-loc': { text: 'Muscat, Oman' },
+        /* ── CFO quote ── */
+        '#quote-cfo .about-eyebrow span:last-child': { text: '02 — A word from the CFO' },
+        '#quote-cfo .quote-tagline'   : { text: '100% Omani Architecture Studio' },
+        '#quote-cfo .quote-text'      : { html: '<span class="qm qm-open" aria-hidden="true">&ldquo;</span>Sustainable growth is not an accident &mdash; it is a discipline. At Maqar Studio, we believe that financial strength is the foundation upon which great architecture is built. When we invest wisely, we give our creators the freedom to dream boldly, and we give Oman buildings that will stand for generations to come.<span class="qm qm-close" aria-hidden="true">&rdquo;</span>' },
+        '#quote-cfo .quote-attrib-name span': { text: 'Chief Financial Officer, Maqar Studio' },
+        '#quote-cfo .quote-attrib-loc': { text: 'Muscat, Oman' },
+        /* ── Work ── */
+        '.work-head .about-eyebrow span:last-child': { text: '03 — Selected Work' },
+        '.work-heading'                : { text: 'A practice across three disciplines.' },
+        '.tab[data-filter="all"]'          : { text: 'All' },
+        '.tab[data-filter="architecture"]' : { text: 'Architecture' },
+        '.tab[data-filter="interior"]'     : { text: 'Interior' },
+        '.tab[data-filter="digital"]'      : { text: 'Digital' },
+        '.tab[data-filter="graphic"]'      : { text: 'Graphic' },
+        /* ── Services ── */
+        '.services-header .about-eyebrow span:last-child': { text: '04 — Services' },
+        '.services-heading': { html: 'What we <em>build</em>.' },
+        '.service-group:nth-child(1) .service-group-title': { text: 'Core Design Services' },
+        '.service-group:nth-child(1) .service-item:nth-child(1) strong': { text: 'Architectural Design' },
+        '.service-group:nth-child(1) .service-item:nth-child(1) .service-info span': { text: 'Residential, commercial, mixed-use' },
+        '.service-group:nth-child(1) .service-item:nth-child(2) strong': { text: 'Interior Design & Space Planning' },
+        '.service-group:nth-child(1) .service-item:nth-child(3) strong': { text: 'Urban Design & Master Planning' },
+        '.service-group:nth-child(1) .service-item:nth-child(4) strong': { text: 'Landscape Architecture' },
+        '.service-group:nth-child(2) .service-group-title': { text: 'Specialized Services' },
+        '.service-group:nth-child(2) .service-item:nth-child(1) strong': { text: 'Heritage & Cultural Architecture' },
+        '.service-group:nth-child(2) .service-item:nth-child(2) strong': { text: 'Facade Design & Detailing' },
+        '.service-group:nth-child(2) .service-item:nth-child(3) strong': { text: '3D Visualization & Rendering' },
+        /* ── Achievements ── */
+        '.ach-header .section-eyebrow span:last-child': { text: '05 — ACHIEVEMENTS' },
+        '.section-title': { html: 'Recognition &amp;<br>Milestones.' },
+        /* ── AI Agents ── */
+        '#agents .about-eyebrow span:last-child': { text: 'AI — Agents' },
+        '.agents-heading': { html: 'The intelligent<br>side of <em>MAQAR</em>.' },
+        '.agents-sub'    : { text: 'We are bringing AI into architecture — deploying intelligent agents to serve our clients faster, smarter, and around the clock. Meet the team that never sleeps.' },
+        '.agent-card[data-agent="maryam"] .agent-role' : { text: 'Finance Agent' },
+        '.agent-card[data-agent="maryam"] .agent-cta'  : { text: 'View capabilities →' },
+        '.agent-card[data-agent="maryam"] .agent-badge': { html: '<span class="agent-badge-dot"></span>Online' },
+        '.agent-card[data-agent="yarab"] .agent-role'  : { text: 'Marketing Agent' },
+        '.agent-card[data-agent="yarab"] .agent-cta'   : { text: 'View capabilities →' },
+        '.agent-card[data-agent="yarab"] .agent-badge' : { html: '<span class="agent-badge-dot"></span>Online' },
+        '.agent-badge--lg': { html: '<span class="agent-badge-dot"></span>AI Agent · Online' },
+        /* ── Careers ── */
+        '.careers-head .about-eyebrow span:last-child': { text: '05 — Careers' },
+        '.careers-heading': { html: 'Be part of something <em>meaningful</em>.' },
+        '.careers-sub'    : { text: 'We are always looking for exceptional talent who share our passion for Omani heritage and contemporary design.' },
+        '.career-panel--resume h3': { text: 'Send Resume' },
+        '.career-panel--resume p' : { text: 'Share your portfolio and CV with our team. We review every application with care.' },
+        '.career-panel--intern h3': { text: 'Apply for Internship' },
+        '.career-panel--intern p' : { text: 'Start your journey in Omani architecture. Open to students and recent graduates.' },
+        '.career-panel--collab h3': { text: 'Propose Collaboration' },
+        '.career-panel--collab p' : { text: 'Studios, brands and institutions — pitch a project and let\'s build something together.' },
+        /* ── Contact ── */
+        '.contact .about-eyebrow span:last-child': { text: '06 — Contact' },
+        '.contact-heading': { html: 'Let\'s build something <em>considered</em>.' },
+        '.contact-meta li:nth-child(1) span': { text: 'Email' },
+        '.contact-meta li:nth-child(2) span': { text: 'Phone' },
+        '.contact-meta li:nth-child(3) span': { text: 'Studio' },
+        'label[for="cName"]'   : { text: 'Name' },
+        'label[for="cEmail"]'  : { text: 'Email' },
+        'label[for="cMessage"]': { text: 'Message' },
+        '.send-btn span'       : { text: 'Send' },
+        /* ── Footer ── */
+        '.footer-mark span'         : { text: 'Architectural' },
+        '.footer-meta span:first-child': { text: '© 2026 MAQAR Studio' },
+        '.footer-meta span:last-child' : { text: 'Muscat · Oman' },
+        /* ── Chatbot ── */
+        '.chatbot-header-info span': { text: 'MAQAR Studio Assistant' },
       },
+
       ar: {
-        /* Intro */
-        '.intro-mark-line'                    : { text: 'معماري' },
-        '.intro-tagline'                      : { text: 'المكان. الحرفة. الرؤية.' },
-        '.intro-sub'                          : { text: 'نبني فضاءات تعكس قيمنا.' },
-        '.intro-scroll-hint small'            : { text: 'تمرير' },
-        /* About eyebrow */
+        /* ── Nav (desktop) ── */
+        '.nav-links a[href="#about"]'       : { text: 'عن الاستوديو' },
+        '.nav-links a[href="#work"]'        : { text: 'أعمالنا' },
+        '.nav-links a[href="#services"]'    : { text: 'خدماتنا' },
+        '.nav-links a[href="#achievements"]': { text: 'إنجازاتنا' },
+        '.nav-links a[href="#agents"]'      : { text: 'وكلاء الذكاء' },
+        '.nav-links a[href="#careers"]'     : { text: 'الوظائف' },
+        '.nav-links a[href="#contact"]'     : { text: 'تواصل' },
+        /* ── Nav (drawer) ── */
+        '.nav-drawer a[href="#about"]'       : { text: 'عن الاستوديو' },
+        '.nav-drawer a[href="#work"]'        : { text: 'أعمالنا' },
+        '.nav-drawer a[href="#services"]'    : { text: 'خدماتنا' },
+        '.nav-drawer a[href="#achievements"]': { text: 'إنجازاتنا' },
+        '.nav-drawer a[href="#agents"]'      : { text: 'وكلاء الذكاء' },
+        '.nav-drawer a[href="#careers"]'     : { text: 'الوظائف' },
+        '.nav-drawer a[href="#contact"]'     : { text: 'تواصل' },
+        /* ── Intro ── */
+        '.intro-mark-line'        : { text: 'معماري' },
+        '.intro-tagline'          : { text: 'المكان. الحرفة. الرؤية.' },
+        '.intro-sub'              : { text: 'نبني فضاءات تعكس قيمنا.' },
+        '.intro-scroll-hint small': { text: 'تمرير' },
+        /* ── About ── */
         '.about .about-eyebrow span:last-child': { text: '٠١ — عن الاستوديو' },
-        /* About heading */
         '.about-heading': { html: 'استوديو متعدد التخصصات متجذر في <em>العمارة</em>، ممتداً إلى عالم <em>الرقميات</em> و<em>الجرافيكس</em>.' },
-        /* About paragraphs */
         '.about-body p:first-child': { text: 'ماقار هو استوديو تصميم متعدد التخصصات، متجذر في العمارة ومنفتح على عالم الرقميات والجرافيكس. نصمم فضاءات وهويات وتجارب تتسم بالدقة والعمق والديمومة.' },
-        '.about-body p:last-child' : { text: 'يمزج عملنا بين التراث العُماني والحرفة المعاصرة — نطوي التقاليد في الأشكال، كما يتحوّل الورق إلى عمارة. كل مشروع هو تمرين في التوازن: بين الماضي والحاضر، المادة والمعنى، الصرامة والدفء.' },
-        /* About pillars */
+        '.about-body p:last-child' : { text: 'يمزج عملنا بين التراث العُماني والحرفة المعاصرة — نطوي التقاليد في الأشكال، كما يتحوّل الورق إلى عمارة. كل مشروع تمرين في التوازن: بين الماضي والحاضر، المادة والمعنى، الصرامة والدفء.' },
         '.about-pillars li:nth-child(1) strong': { text: 'مبدع' },
         '.about-pillars li:nth-child(1) span'  : { text: 'وملهم' },
         '.about-pillars li:nth-child(2) strong': { text: 'تعاوني' },
         '.about-pillars li:nth-child(2) span'  : { text: 'وداعم' },
         '.about-pillars li:nth-child(3) strong': { text: 'معبّر' },
         '.about-pillars li:nth-child(3) span'  : { text: 'ومتجدد' },
+        /* ── Sultan Haitham quote ── */
+        '#quote-sultan .about-eyebrow span:last-child': { text: 'رؤية عُمان' },
+        '#quote-sultan .quote-mark-en'   : { text: 'رؤية عُمان 2040' },
+        '#quote-sultan .quote-tagline'   : { text: 'مستقبل متجذر في التراث، محدوده الطموح.' },
+        '#quote-sultan .quote-text'      : { html: '<span class="qm qm-open" aria-hidden="true">&ldquo;</span>نحن نبني عُماناً تسير فيها الأصالة جنباً إلى جنب مع الحداثة — حيث تروي كل فضاء وكل واجهة وكل ميدان عام قصة شعبنا وأرضنا والمستقبل الذي نرسمه معاً.<span class="qm qm-close" aria-hidden="true">&rdquo;</span>' },
+        '#quote-sultan .quote-attrib-name span': { text: 'سلطان عُمان — من رؤية عُمان 2040' },
+        '#quote-sultan .quote-attrib-loc': { text: 'سلطنة عُمان' },
+        /* ── CEO quote ── */
+        '#quote .about-eyebrow span:last-child': { text: '٠٢ — كلمة الرئيس التنفيذي' },
+        '#quote .quote-tagline'   : { text: 'استوديو معمار عُماني ١٠٠٪' },
+        '#quote .quote-text'      : { html: '<span class="qm qm-open" aria-hidden="true">&ldquo;</span>العمارة ليست مجرد تشييد هياكل — بل هي تشكيل للهوية. في استوديو ماقار، كل خط نرسمه يحمل روح عُمان: تراثها وأرضها وطموح شعبها. نبني بفخر لأن هذا وطننا.<span class="qm qm-close" aria-hidden="true">&rdquo;</span>' },
+        '#quote .quote-attrib-name span': { text: 'الرئيس التنفيذي، استوديو ماقار' },
+        '#quote .quote-attrib-loc': { text: 'مسقط، عُمان' },
+        /* ── COO quote ── */
+        '#quote-coo .about-eyebrow span:last-child': { text: '٠٢ — كلمة المدير التنفيذي' },
+        '#quote-coo .quote-tagline'   : { text: 'استوديو معمار عُماني ١٠٠٪' },
+        '#quote-coo .quote-text'      : { html: '<span class="qm qm-open" aria-hidden="true">&ldquo;</span>التصميم الحقيقي يولد من الإصغاء — للأرض والمجتمع والأجيال التي سبقتنا. في استوديو ماقار، لا نصمم الفضاءات فحسب؛ بل نصنع تجارب تُكرّم الثقافة العُمانية وتستقبل المستقبل. كل مشروع حوار بين ما أتينا منه وما نتطلع إليه.<span class="qm qm-close" aria-hidden="true">&rdquo;</span>' },
+        '#quote-coo .quote-attrib-name span': { text: 'المدير التنفيذي للعمليات، استوديو ماقار' },
+        '#quote-coo .quote-attrib-loc': { text: 'مسقط، عُمان' },
+        /* ── CMO quote ── */
+        '#quote-exec3 .about-eyebrow span:last-child': { text: '٠٢ — كلمة من فريقنا' },
+        '#quote-exec3 .quote-tagline'   : { text: 'استوديو معمار عُماني ١٠٠٪' },
+        '#quote-exec3 .quote-text'      : { html: '<span class="qm qm-open" aria-hidden="true">&ldquo;</span>العلامة التجارية ليست ما تقوله عن نفسك — بل ما يشعر به الناس حين يعبرون بابك. في استوديو ماقار، قصتنا مكتوبة في كل واجهة وكل فناء وكل تفصيلة تهمس بعُمان. مهمتنا أن نُريَ العالم ما عرفناه دائماً: أن التصميم العُماني عالمي المستوى، خالد وعميق الإنسانية.<span class="qm qm-close" aria-hidden="true">&rdquo;</span>' },
+        '#quote-exec3 .quote-attrib-name span': { text: 'مدير التسويق، استوديو ماقار' },
+        '#quote-exec3 .quote-attrib-loc': { text: 'مسقط، عُمان' },
+        /* ── CFO quote ── */
+        '#quote-cfo .about-eyebrow span:last-child': { text: '٠٢ — كلمة المدير المالي' },
+        '#quote-cfo .quote-tagline'   : { text: 'استوديو معمار عُماني ١٠٠٪' },
+        '#quote-cfo .quote-text'      : { html: '<span class="qm qm-open" aria-hidden="true">&ldquo;</span>النمو المستدام ليس مصادفة — بل انضباط. في استوديو ماقار، نؤمن أن الرسوخ المالي هو الأساس الذي تقوم عليه العمارة العظيمة. حين نستثمر بحكمة، نمنح مبدعينا حرية الحلم بجرأة، ونمنح عُمان مبانٍ ستصمد لأجيال قادمة.<span class="qm qm-close" aria-hidden="true">&rdquo;</span>' },
+        '#quote-cfo .quote-attrib-name span': { text: 'المدير المالي، استوديو ماقار' },
+        '#quote-cfo .quote-attrib-loc': { text: 'مسقط، عُمان' },
+        /* ── Work ── */
+        '.work-head .about-eyebrow span:last-child': { text: '٠٣ — أعمال مختارة' },
+        '.work-heading'                : { text: 'ممارسة عبر ثلاثة تخصصات.' },
+        '.tab[data-filter="all"]'          : { text: 'الكل' },
+        '.tab[data-filter="architecture"]' : { text: 'عمارة' },
+        '.tab[data-filter="interior"]'     : { text: 'داخلي' },
+        '.tab[data-filter="digital"]'      : { text: 'رقمي' },
+        '.tab[data-filter="graphic"]'      : { text: 'جرافيك' },
+        /* ── Services ── */
+        '.services-header .about-eyebrow span:last-child': { text: '٠٤ — الخدمات' },
+        '.services-heading': { html: 'ما <em>نبنيه</em>.' },
+        '.service-group:nth-child(1) .service-group-title': { text: 'خدمات التصميم الأساسية' },
+        '.service-group:nth-child(1) .service-item:nth-child(1) strong': { text: 'التصميم المعماري' },
+        '.service-group:nth-child(1) .service-item:nth-child(1) .service-info span': { text: 'سكني، تجاري، متعدد الاستخدامات' },
+        '.service-group:nth-child(1) .service-item:nth-child(2) strong': { text: 'التصميم الداخلي وتخطيط الفراغات' },
+        '.service-group:nth-child(1) .service-item:nth-child(3) strong': { text: 'التصميم الحضري والتخطيط الرئيسي' },
+        '.service-group:nth-child(1) .service-item:nth-child(4) strong': { text: 'عمارة المناظر الطبيعية' },
+        '.service-group:nth-child(2) .service-group-title': { text: 'خدمات متخصصة' },
+        '.service-group:nth-child(2) .service-item:nth-child(1) strong': { text: 'العمارة التراثية والثقافية' },
+        '.service-group:nth-child(2) .service-item:nth-child(2) strong': { text: 'تصميم الواجهات وتفاصيلها' },
+        '.service-group:nth-child(2) .service-item:nth-child(3) strong': { text: 'التصور ثلاثي الأبعاد والإخراج البصري' },
+        /* ── Achievements ── */
+        '.ach-header .section-eyebrow span:last-child': { text: '٠٥ — الإنجازات' },
+        '.section-title': { html: 'تقدير و<br>محطات.' },
+        /* ── AI Agents ── */
+        '#agents .about-eyebrow span:last-child': { text: 'الذكاء الاصطناعي — الوكلاء' },
+        '.agents-heading': { html: 'الجانب <em>الذكي</em><br>من ماقار.' },
+        '.agents-sub'    : { text: 'نجلب الذكاء الاصطناعي إلى عالم العمارة — نوظّف وكلاء أذكياء لخدمة عملائنا بشكل أسرع وأذكى وعلى مدار الساعة. تعرّف على الفريق الذي لا ينام.' },
+        '.agent-card[data-agent="maryam"] .agent-role' : { text: 'وكيلة المالية' },
+        '.agent-card[data-agent="maryam"] .agent-cta'  : { text: '← استعراض القدرات' },
+        '.agent-card[data-agent="maryam"] .agent-badge': { html: '<span class="agent-badge-dot"></span>متصل' },
+        '.agent-card[data-agent="yarab"] .agent-role'  : { text: 'وكيل التسويق' },
+        '.agent-card[data-agent="yarab"] .agent-cta'   : { text: '← استعراض القدرات' },
+        '.agent-card[data-agent="yarab"] .agent-badge' : { html: '<span class="agent-badge-dot"></span>متصل' },
+        '.agent-badge--lg': { html: '<span class="agent-badge-dot"></span>وكيل ذكاء اصطناعي · متصل' },
+        /* ── Careers ── */
+        '.careers-head .about-eyebrow span:last-child': { text: '٠٥ — الوظائف' },
+        '.careers-heading': { html: 'كن جزءاً من شيء <em>ذي معنى</em>.' },
+        '.careers-sub'    : { text: 'نحن دائماً نبحث عن مواهب استثنائية تشاركنا الشغف بالتراث العُماني والتصميم المعاصر.' },
+        '.career-panel--resume h3': { text: 'أرسل سيرتك الذاتية' },
+        '.career-panel--resume p' : { text: 'شارك ملف أعمالك وسيرتك الذاتية مع فريقنا. نراجع كل طلب بعناية.' },
+        '.career-panel--intern h3': { text: 'تقدّم للتدريب' },
+        '.career-panel--intern p' : { text: 'ابدأ رحلتك في العمارة العُمانية. مفتوح للطلاب والخريجين الجدد.' },
+        '.career-panel--collab h3': { text: 'اقترح تعاوناً' },
+        '.career-panel--collab p' : { text: 'استوديوهات وعلامات تجارية ومؤسسات — قدّم مشروعك ولنبني شيئاً معاً.' },
+        /* ── Contact ── */
+        '.contact .about-eyebrow span:last-child': { text: '٠٦ — تواصل معنا' },
+        '.contact-heading': { html: 'لنبني شيئاً <em>مدروساً</em>.' },
+        '.contact-meta li:nth-child(1) span': { text: 'البريد الإلكتروني' },
+        '.contact-meta li:nth-child(2) span': { text: 'الهاتف' },
+        '.contact-meta li:nth-child(3) span': { text: 'الاستوديو' },
+        'label[for="cName"]'   : { text: 'الاسم' },
+        'label[for="cEmail"]'  : { text: 'البريد الإلكتروني' },
+        'label[for="cMessage"]': { text: 'الرسالة' },
+        '.send-btn span'       : { text: 'إرسال' },
+        /* ── Footer ── */
+        '.footer-mark span'            : { text: 'معماري' },
+        '.footer-meta span:first-child': { text: '© 2026 استوديو ماقار' },
+        '.footer-meta span:last-child' : { text: 'مسقط · عُمان' },
+        /* ── Chatbot ── */
+        '.chatbot-header-info span': { text: 'مساعد استوديو ماقار' },
       },
+    };
+
+    /* ── List translations: querySelectorAll + index array ─── */
+    const TL = {
+      en: {
+        /* Work card titles (12 cards in DOM order) */
+        '.work-grid .card-meta h3': [
+          'Residence Al Khuwair', 'Brand Portal UI', 'Identity System Vol.1',
+          'The Courtyard House', '3D Visualization Suite', 'Exhibition Catalog',
+          'Pavilion 07', 'Interactive Space', 'Wayfinding System',
+          'Salalah Apartment', 'Atelier Workspace', 'Hospitality Suite',
+        ],
+        /* Work card subtitles */
+        '.work-grid .card-meta span': [
+          'Architecture · Muscat', 'Digital · Web Platform', 'Graphic · Brand',
+          'Architecture · Residential', 'Digital · Tooling', 'Graphic · Print',
+          'Architecture · Cultural', 'Digital · Installation', 'Graphic · Environmental',
+          'Interior · Residential', 'Interior · Studio', 'Interior · Hospitality',
+        ],
+        /* Achievement dot labels (8, clockwise from top) */
+        '.ach-dot-name': [
+          'Best Architecture Practice', 'Sustainable Build Excellence',
+          'Young Practice of the Year', 'Heritage Design Award',
+          'Interior Project of the Year', 'Brand Identity Excellence',
+          'Urban Innovation Prize', 'Client Satisfaction Award',
+        ],
+        /* Chatbot quick-reply buttons */
+        '.chatbot-quick': ['Services', 'Contact', 'Portfolio', 'Careers'],
+      },
+      ar: {
+        /* Work card titles */
+        '.work-grid .card-meta h3': [
+          'مسكن الخوير', 'واجهة بوابة العلامة', 'نظام الهوية — المجلد الأول',
+          'بيت الفناء', 'حزمة التصور ثلاثي الأبعاد', 'كتالوج المعرض',
+          'الجناح ٠٧', 'فضاء تفاعلي', 'نظام التوجيه',
+          'شقة صلالة', 'مساحة الأتيليه', 'جناح الضيافة',
+        ],
+        /* Work card subtitles */
+        '.work-grid .card-meta span': [
+          'عمارة · مسقط', 'رقمي · منصة إلكترونية', 'جرافيك · هوية',
+          'عمارة · سكني', 'رقمي · أدوات', 'جرافيك · طباعة',
+          'عمارة · ثقافي', 'رقمي · تركيب', 'جرافيك · بيئي',
+          'داخلي · سكني', 'داخلي · استوديو', 'داخلي · ضيافة',
+        ],
+        /* Achievement dot labels */
+        '.ach-dot-name': [
+          'أفضل ممارسة معمارية', 'التميز في البناء المستدام',
+          'أفضل ممارسة ناشئة لعام', 'جائزة التصميم التراثي',
+          'مشروع التصميم الداخلي للعام', 'التميز في هوية العلامة',
+          'جائزة الابتكار الحضري', 'جائزة رضا العملاء',
+        ],
+        /* Chatbot quick-reply buttons */
+        '.chatbot-quick': ['خدمات', 'تواصل', 'أعمال', 'وظائف'],
+      },
+    };
+
+    /* ── Attribute translations ──────────────────────────────── */
+    const ATTRS = {
+      en: { '#chatbotInput': { placeholder: 'Ask Said anything…' } },
+      ar: { '#chatbotInput': { placeholder: 'اسأل سعيداً أي شيء...' } },
     };
 
     /* ── Apply a language ────────────────────────────────────── */
     const applyLang = (lang) => {
-      const map = T[lang];
-      if (!map) return;
+      if (!T[lang]) return;
 
-      Object.entries(map).forEach(([selector, val]) => {
-        const el = document.querySelector(selector);
+      /* 1 — Single-element translations */
+      Object.entries(T[lang]).forEach(([sel, val]) => {
+        const el = document.querySelector(sel);
         if (!el) return;
         if (val.html !== undefined) el.innerHTML = val.html;
         else el.textContent = val.text;
       });
 
-      /* RTL / LTR */
-      const html = document.documentElement;
+      /* 2 — List translations (querySelectorAll + index) */
+      Object.entries(TL[lang] || {}).forEach(([sel, texts]) => {
+        document.querySelectorAll(sel).forEach((el, i) => {
+          if (texts[i] !== undefined) el.textContent = texts[i];
+        });
+      });
+
+      /* 3 — Attribute translations */
+      Object.entries(ATTRS[lang] || {}).forEach(([sel, attrs]) => {
+        const el = document.querySelector(sel);
+        if (!el) return;
+        Object.entries(attrs).forEach(([attr, val]) => el.setAttribute(attr, val));
+      });
+
+      /* 4 — RTL / LTR */
+      const root = document.documentElement;
       if (lang === 'ar') {
-        html.setAttribute('dir', 'rtl');
-        html.setAttribute('lang', 'ar');
+        root.setAttribute('dir', 'rtl');
+        root.setAttribute('lang', 'ar');
       } else {
-        html.setAttribute('dir', 'ltr');
-        html.setAttribute('lang', 'en');
+        root.setAttribute('dir', 'ltr');
+        root.setAttribute('lang', 'en');
       }
 
-      /* Update button active state */
+      /* 5 — Update button active indicator */
       btn.dataset.lang = lang;
 
-      /* Persist */
+      /* 6 — Persist */
       try { localStorage.setItem('maqar-lang', lang); } catch (_) {}
     };
 
     /* ── Toggle on click ─────────────────────────────────────── */
     btn.addEventListener('click', () => {
-      const next = btn.dataset.lang === 'en' ? 'ar' : 'en';
-      applyLang(next);
+      applyLang(btn.dataset.lang === 'en' ? 'ar' : 'en');
     });
 
     /* ── Restore saved preference on load ────────────────────── */

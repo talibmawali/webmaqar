@@ -2511,43 +2511,93 @@ html[dir="rtl"] .nav-links {
   flex-direction: row-reverse;
 }
 
-/* Intro text — stay centered, just let Arabic glyphs render naturally */
-html[dir="rtl"] .intro-overlay {
-  align-items: center;
-  text-align: center;
-}
-
-/* About section */
-html[dir="rtl"] .about-grid {
-  direction: rtl;
-  text-align: right;
-}
-/* Eyebrow: direction:rtl inherited from parent makes flex flow right→left,
-   so the rule lands on the right and text to its left — correct for Arabic.
-   Do NOT add row-reverse (that would cancel the RTL and push items left). */
+/* ── Shared eyebrow helper — used across all RTL sections ─── */
 html[dir="rtl"] .about-eyebrow {
-  direction: rtl;
-}
-html[dir="rtl"] .about-pillars {
-  direction: rtl;
-}
-html[dir="rtl"] .about-pillars li {
-  text-align: right;
+  direction: rtl; /* flex row flows right→left: rule on right, text beside it */
 }
 
-/* Mobile drawer flips */
+/* ════════════════════════════════════════════════════════════
+   RTL LAYOUT — full site
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Nav ───────────────────────────────────────────────────── */
+html[dir="rtl"] .nav { flex-direction: row-reverse; }
+html[dir="rtl"] .nav-links { flex-direction: row-reverse; }
+
+/* Mobile drawer: slide from left instead of right */
 html[dir="rtl"] .nav-drawer {
-  right: auto;
-  left: 0;
+  right: auto; left: 0;
   transform: translateX(-100%);
 }
-html[dir="rtl"] .nav-drawer.is-open {
-  transform: translateX(0);
-}
+html[dir="rtl"] .nav-drawer.is-open { transform: translateX(0); }
 html[dir="rtl"] .nav-drawer a {
   text-align: right;
   transform: translateX(28px);
 }
-html[dir="rtl"] .nav-drawer.is-open a {
-  transform: translateX(0);
-}
+html[dir="rtl"] .nav-drawer.is-open a { transform: translateX(0); }
+
+/* ── Intro — stay centered ─────────────────────────────────── */
+html[dir="rtl"] .intro-overlay { align-items: center; text-align: center; }
+
+/* ── About ─────────────────────────────────────────────────── */
+html[dir="rtl"] .about-grid   { direction: rtl; text-align: right; }
+html[dir="rtl"] .about-pillars { direction: rtl; }
+html[dir="rtl"] .about-pillars li { text-align: right; }
+
+/* ── Quote sections (Sultan, CEO, COO, CMO, CFO) ──────────── */
+html[dir="rtl"] .quote-grid  { direction: rtl; }
+html[dir="rtl"] .quote-body  { text-align: right; direction: rtl; }
+html[dir="rtl"] .quote-attrib { direction: rtl; }
+html[dir="rtl"] .quote-attrib-name { text-align: right; }
+
+/* ── Work / Portfolio ──────────────────────────────────────── */
+html[dir="rtl"] .work-head { direction: rtl; text-align: right; }
+html[dir="rtl"] .work-tabs { flex-direction: row-reverse; }
+html[dir="rtl"] .card-meta { text-align: right; direction: rtl; }
+
+/* ── Services ──────────────────────────────────────────────── */
+html[dir="rtl"] .services-header { direction: rtl; text-align: right; }
+html[dir="rtl"] .services-cols   { direction: rtl; }
+html[dir="rtl"] .service-group   { text-align: right; }
+html[dir="rtl"] .service-item    { flex-direction: row-reverse; }
+html[dir="rtl"] .service-num     { direction: ltr; } /* keep numerals LTR */
+
+/* ── Achievements ──────────────────────────────────────────── */
+html[dir="rtl"] .ach-header       { direction: rtl; text-align: right; }
+html[dir="rtl"] .section-eyebrow  { flex-direction: row-reverse; }
+
+/* ── AI Agents ─────────────────────────────────────────────── */
+html[dir="rtl"] .agents-head { direction: rtl; text-align: right; }
+html[dir="rtl"] .agent-foot  { text-align: right; direction: rtl; }
+
+/* ── Careers ───────────────────────────────────────────────── */
+html[dir="rtl"] .careers-head  { direction: rtl; text-align: right; }
+html[dir="rtl"] .career-panel  { direction: rtl; text-align: right; }
+/* Flip the diagonal arrow to match RTL reading direction */
+html[dir="rtl"] .career-panel-arrow svg { transform: scaleX(-1); }
+
+/* Agent modal in RTL */
+html[dir="rtl"] .agent-modal-right { direction: rtl; text-align: right; }
+html[dir="rtl"] .agent-modal-caps  { direction: rtl; text-align: right; }
+
+/* ── Contact ───────────────────────────────────────────────── */
+html[dir="rtl"] .contact-grid  { direction: rtl; }
+html[dir="rtl"] .contact-left  { direction: rtl; text-align: right; }
+html[dir="rtl"] .contact-meta  { direction: rtl; }
+html[dir="rtl"] .contact-meta li { flex-direction: row-reverse; }
+html[dir="rtl"] .contact-form .field { direction: rtl; text-align: right; }
+html[dir="rtl"] .send-btn      { flex-direction: row-reverse; }
+html[dir="rtl"] .send-btn svg  { transform: scaleX(-1); }
+
+/* ── Footer ────────────────────────────────────────────────── */
+html[dir="rtl"] .footer      { direction: rtl; }
+html[dir="rtl"] .footer-mark { flex-direction: row-reverse; }
+html[dir="rtl"] .footer-meta { direction: rtl; }
+
+/* ── Chatbot ───────────────────────────────────────────────── */
+html[dir="rtl"] .chatbot-header     { direction: rtl; }
+html[dir="rtl"] .chatbot-messages   { direction: rtl; }
+html[dir="rtl"] .chatbot-quick-btns { direction: rtl; }
+html[dir="rtl"] .chatbot-input-row  { direction: rtl; }
+html[dir="rtl"] .chatbot-msg--bot .chatbot-msg-bubble { text-align: right; }
+html[dir="rtl"] .chatbot-msg--user .chatbot-msg-bubble { text-align: right; }
