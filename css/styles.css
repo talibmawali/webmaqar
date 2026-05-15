@@ -146,44 +146,58 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 /* ── Hamburger button (hidden on desktop) ── */
 .nav-hamburger {
   display: none;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 5px;
-  width: 36px; height: 36px;
-  padding: 6px;
+  width: 42px; height: 42px;
+  padding: 5px;
   background: none; border: none;
   cursor: pointer;
   z-index: 110;
   flex-shrink: 0;
+  position: relative;
 }
-.nav-hamburger span {
+/* Brand stripe icon */
+.nav-hamburger-icon {
+  width: 28px; height: 22px;
   display: block;
-  width: 100%; height: 1.5px;
-  background: var(--c-ink);
-  border-radius: 2px;
-  transition: transform .35s var(--ease), opacity .25s var(--ease);
+  transition: opacity .28s var(--ease), transform .28s var(--ease);
   transform-origin: center;
 }
-.nav.is-stuck .nav-hamburger span { background: var(--c-ink); }
-/* X state */
-.nav-hamburger.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-.nav-hamburger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.nav-hamburger.is-open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+/* X icon — hidden by default */
+.nav-hamburger-x {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 18px; height: 18px;
+  display: block;
+  opacity: 0;
+  transform: rotate(-45deg) scale(0.7);
+  transition: opacity .28s var(--ease), transform .28s var(--ease);
+}
+/* Open state: hide stripes, show X */
+.nav-hamburger.is-open .nav-hamburger-icon {
+  opacity: 0;
+  transform: rotate(15deg) scale(0.75);
+}
+.nav-hamburger.is-open .nav-hamburger-x {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
 
 /* ── Slide-down drawer (mobile only) ── */
 .nav-drawer {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 105;
-  background: color-mix(in oklab, var(--c-bg) 96%, transparent);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: color-mix(in oklab, var(--c-bg) 97%, transparent);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
   border-bottom: 1px solid var(--c-line);
   display: flex; flex-direction: column;
-  padding: 80px 32px 36px;
+  padding: 88px var(--pad-x) 40px;
   gap: 0;
-  transform: translateY(-100%);
-  transition: transform .42s cubic-bezier(.23,1,.32,1);
+  transform: translateY(-102%);
+  transition: transform .55s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
 }
 .nav-drawer.is-open {
@@ -193,7 +207,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .nav-drawer-close {
   position: absolute;
   top: 22px; right: var(--pad-x);
-  width: 36px; height: 36px;
+  width: 40px; height: 40px;
   display: flex; align-items: center; justify-content: center;
   background: none; border: none;
   color: var(--c-ink);
@@ -201,31 +215,45 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   padding: 0;
   z-index: 2;
   opacity: 0;
-  transition: opacity .25s var(--ease), color .2s ease;
+  transform: rotate(-90deg) scale(0.7);
+  transition: opacity .3s var(--ease), transform .4s cubic-bezier(0.16, 1, 0.3, 1), color .2s ease;
 }
-.nav-drawer.is-open .nav-drawer-close { opacity: 1; }
+.nav-drawer.is-open .nav-drawer-close {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+  transition-delay: .32s;
+}
 .nav-drawer-close:hover { color: var(--c-rust); }
 .nav-drawer a {
-  font-size: 22px; font-weight: 600;
-  letter-spacing: .04em; text-transform: uppercase;
+  font-size: clamp(18px, 5vw, 24px);
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
   color: var(--c-ink);
-  padding: 14px 0;
+  padding: 15px 0;
   border-bottom: 1px solid var(--c-line);
+  text-decoration: none;
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity .32s var(--ease), transform .32s var(--ease), color .2s ease;
+  transform: translateX(-28px);
+  transition:
+    opacity  .5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform .5s cubic-bezier(0.16, 1, 0.3, 1),
+    color .2s ease;
+  will-change: opacity, transform;
 }
 .nav-drawer a:last-child { border-bottom: none; }
 .nav-drawer a:hover { color: var(--c-rust); }
 .nav-drawer.is-open a {
-  opacity: 1; transform: translateY(0);
+  opacity: 1;
+  transform: translateX(0);
 }
-.nav-drawer.is-open a:nth-child(1) { transition-delay: .05s; }
-.nav-drawer.is-open a:nth-child(2) { transition-delay: .10s; }
-.nav-drawer.is-open a:nth-child(3) { transition-delay: .15s; }
-.nav-drawer.is-open a:nth-child(4) { transition-delay: .20s; }
-.nav-drawer.is-open a:nth-child(5) { transition-delay: .25s; }
-.nav-drawer.is-open a:nth-child(6) { transition-delay: .30s; }
+/* Staggered entry — each link slides in later than the previous */
+.nav-drawer.is-open a:nth-child(1) { transition-delay: .09s; }
+.nav-drawer.is-open a:nth-child(2) { transition-delay: .15s; }
+.nav-drawer.is-open a:nth-child(3) { transition-delay: .20s; }
+.nav-drawer.is-open a:nth-child(4) { transition-delay: .25s; }
+.nav-drawer.is-open a:nth-child(5) { transition-delay: .30s; }
+.nav-drawer.is-open a:nth-child(6) { transition-delay: .35s; }
 
 /* Show hamburger, hide nav-links on mobile */
 @media (max-width: 720px) {
