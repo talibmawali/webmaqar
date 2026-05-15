@@ -25,10 +25,9 @@ const EMAILJS_CFG = {
    ════════════════════════════════════════════════════════════ */
 const MEDIA = {
 
-  /* ── Intro video & background music ──────────────────────── */
+  /* ── Intro video ─────────────────────────────────────────── */
   intro: {
     video : 'assets/maqar-intro-scrub.mp4',
-    music : 'assets/maqar-music.mp3',
   },
 
   /* ── Work grid cards + project modal slides ──────────────────
@@ -128,53 +127,10 @@ const MEDIA = {
 
     intro.classList.add('is-revealed');
 
-    // ── Intro audio at 20% volume ──────────────────────────────
-    const introAudio = document.getElementById('introAudio');
-    const INTRO_VOL  = 0.20;
-    let   audioFadeRaf = null;
-
-    const fadeAudioTo = (target, ms = 800) => {
-      if (!introAudio) return;
-      if (audioFadeRaf) cancelAnimationFrame(audioFadeRaf);
-      const start = performance.now();
-      const from  = introAudio.volume;
-      const tick  = (t) => {
-        const p = Math.min(1, (t - start) / ms);
-        introAudio.volume = Math.max(0, Math.min(1, from + (target - from) * p));
-        if (p < 1) { audioFadeRaf = requestAnimationFrame(tick); }
-        else if (target === 0) { try { introAudio.pause(); } catch (_) {} }
-      };
-      audioFadeRaf = requestAnimationFrame(tick);
-    };
-
-    const startIntroAudio = () => {
-      if (!introAudio || prefersReduced) return;
-      introAudio.volume = 0;
-      const p = introAudio.play();
-      if (p && typeof p.catch === 'function') p.catch(() => {});
-      fadeAudioTo(INTRO_VOL, 1200);
-    };
-
-    const stopIntroAudio = (fast = false) => {
-      fadeAudioTo(0, fast ? 400 : 1200);
-    };
-
-    // Video ends → keep music playing, just mark ended state
+    // Video ends → mark ended state
     const markEnded = () => {
       intro.classList.add('is-ended');
-      // music continues — it will fade when user reaches the Work section
     };
-
-    // Fade music out when the Work section enters view (scrolled past About)
-    const workSection = document.getElementById('work');
-    if (workSection && 'IntersectionObserver' in window) {
-      const workIO = new IntersectionObserver((entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) stopIntroAudio();
-        }
-      }, { threshold: 0.15 });
-      workIO.observe(workSection);
-    }
 
     const playFromStart = () => {
       intro.classList.remove('is-ended');
@@ -196,17 +152,6 @@ const MEDIA = {
     if (initial && typeof initial.catch === 'function') {
       initial.catch(() => markEnded());
     }
-
-    // Try audio immediately (works if the browser has already granted
-    // autoplay media permission). If blocked, start on first interaction.
-    startIntroAudio();
-    const onFirstInteraction = () => {
-      startIntroAudio();
-      document.removeEventListener('pointerdown', onFirstInteraction);
-      document.removeEventListener('keydown',     onFirstInteraction);
-    };
-    document.addEventListener('pointerdown', onFirstInteraction, { once: true });
-    document.addEventListener('keydown',     onFirstInteraction, { once: true });
 
     // Fallback: if the video is still stuck near 0 after a moment, treat
     // it as ended so the door / title overlay aren't gated on it.
@@ -1157,4 +1102,186 @@ const MEDIA = {
       target.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
     });
   });
+
+  /* ------------------------------------------------------------
+     10) Floating chatbot widget
+     ------------------------------------------------------------ */
+  (() => {
+    const fab      = document.getElementById('chatbotFab');
+    const panel    = document.getElementById('chatbotPanel');
+    const closeBtn = document.getElementById('chatbotClose');
+    const messages = document.getElementById('chatbotMessages');
+    const form     = document.getElementById('chatbotForm');
+    const input    = document.getElementById('chatbotInput');
+    const quickBtns= document.getElementById('chatbotQuickBtns');
+
+    if (!fab || !panel) return;
+
+    // ── Knowledge base ────────────────────────────────────────
+    const KB = [
+      {
+        keys: ['service', 'offer', 'do', 'work', 'what'],
+        reply: `We offer three core disciplines:\n• <strong>Architecture</strong> — residential, commercial & cultural\n• <strong>Interior Design</strong> — space planning and finishes\n• <strong>Graphic & Digital Design</strong> — identity systems, UI, visualisation\n\nScroll to our <a href="#services" data-link>Services section</a> for the full list.`
+      },
+      {
+        keys: ['contact', 'reach', 'email', 'phone', 'call', 'touch'],
+        reply: `You can reach us at:<br>📧 <a href="mailto:Maqarstudio@gmail.com">Maqarstudio@gmail.com</a><br>📞 <a href="tel:+96876833386">+968 7683 3386</a><br>📍 Muscat, Oman<br><br>Or use the <a href="#contact" data-link>Contact form</a> below.`
+      },
+      {
+        keys: ['portfolio', 'project', 'work', 'see', 'example', 'showcase'],
+        reply: `Our portfolio spans architecture, interior, graphic, and digital projects. Browse them in the <a href="#work" data-link>Work section</a> — click any card to explore a full case study.`
+      },
+      {
+        keys: ['hire', 'hiring', 'job', 'career', 'internship', 'join', 'vacancy', 'apply'],
+        reply: `We're always looking for talented people! You can:<br>• Submit your <strong>resume &amp; portfolio</strong><br>• Apply for an <strong>internship</strong><br>• Propose a <strong>collaboration</strong><br><br>Visit our <a href="#careers" data-link>Careers section</a> to apply.`
+      },
+      {
+        keys: ['about', 'studio', 'who', 'team', 'maqar'],
+        reply: `MAQAR is a 100% Omani multidisciplinary design studio founded in Muscat. We blend Omani heritage with contemporary craft across architecture, interiors, and design. <a href="#about" data-link>Learn more about us ↓</a>`
+      },
+      {
+        keys: ['location', 'based', 'where', 'muscat', 'oman'],
+        reply: `We are based in <strong>Muscat, Oman</strong> and work with clients across the Gulf region and beyond.`
+      },
+      {
+        keys: ['price', 'cost', 'fee', 'quote', 'rate', 'budget'],
+        reply: `Every project is unique, so fees are tailored to scope and scale. <a href="#contact" data-link>Send us a message</a> with your brief and we'll get back to you promptly.`
+      },
+      {
+        keys: ['achievement', 'award', 'recognition', 'prize'],
+        reply: `We've received several industry awards including Best Architecture Practice (Oman Design Awards 2024), Young Practice of the Year (Arab Architecture Forum 2023), and more. <a href="#achievements" data-link>See all achievements ↓</a>`
+      },
+      {
+        keys: ['hello', 'hi', 'hey', 'salam', 'السلام'],
+        reply: `Hello! 👋 Welcome to MAQAR Studio. I can help you learn about our services, portfolio, team, or how to get in touch. What would you like to know?`
+      },
+      {
+        keys: ['thanks', 'thank', 'شكرا', 'appreciated'],
+        reply: `You're welcome! Is there anything else I can help you with?`
+      },
+    ];
+
+    const FALLBACK = `I'm not sure I understand that yet! Try asking about our <strong>services</strong>, <strong>portfolio</strong>, <strong>careers</strong>, or <strong>contact details</strong> — or use the quick buttons below.`;
+
+    const findReply = (text) => {
+      const lower = text.toLowerCase();
+      for (const entry of KB) {
+        if (entry.keys.some(k => lower.includes(k))) return entry.reply;
+      }
+      return FALLBACK;
+    };
+
+    // ── Message rendering ────────────────────────────────────
+    let isOpen = false;
+    let greeted = false;
+
+    const addMessage = (html, role /* 'bot' | 'user' */, animate = true) => {
+      const wrap = document.createElement('div');
+      wrap.className = `chatbot-msg chatbot-msg--${role}${animate ? ' chatbot-msg--in' : ''}`;
+      const bubble = document.createElement('div');
+      bubble.className = 'chatbot-bubble';
+      bubble.innerHTML = html;
+      wrap.appendChild(bubble);
+      messages.appendChild(wrap);
+      messages.scrollTop = messages.scrollHeight;
+
+      // Re-bind smooth-scroll on any injected links
+      wrap.querySelectorAll('[data-link]').forEach(a => {
+        a.addEventListener('click', (e) => {
+          const href = a.getAttribute('href');
+          if (!href || !href.startsWith('#')) return;
+          const el = document.querySelector(href);
+          if (!el) return;
+          e.preventDefault();
+          closePanel();
+          setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+        });
+      });
+    };
+
+    const showTyping = () => {
+      const wrap = document.createElement('div');
+      wrap.className = 'chatbot-msg chatbot-msg--bot chatbot-msg--typing chatbot-msg--in';
+      wrap.id = 'chatbotTyping';
+      wrap.innerHTML = '<div class="chatbot-bubble"><span class="chatbot-dot"></span><span class="chatbot-dot"></span><span class="chatbot-dot"></span></div>';
+      messages.appendChild(wrap);
+      messages.scrollTop = messages.scrollHeight;
+    };
+
+    const removeTyping = () => {
+      const el = document.getElementById('chatbotTyping');
+      if (el) el.remove();
+    };
+
+    const sendMessage = (text) => {
+      const trimmed = text.trim();
+      if (!trimmed) return;
+      addMessage(trimmed, 'user');
+      input.value = '';
+
+      showTyping();
+      setTimeout(() => {
+        removeTyping();
+        addMessage(findReply(trimmed), 'bot');
+      }, 700 + Math.random() * 400);
+    };
+
+    // ── Open / close ─────────────────────────────────────────
+    const openPanel = () => {
+      isOpen = true;
+      panel.classList.add('is-open');
+      panel.setAttribute('aria-hidden', 'false');
+      fab.setAttribute('aria-expanded', 'true');
+      fab.classList.add('is-open');
+      // Ping badge off
+      const ping = fab.querySelector('.chatbot-fab-ping');
+      if (ping) ping.style.display = 'none';
+
+      if (!greeted) {
+        greeted = true;
+        setTimeout(() => addMessage(`Hi there! 👋 I'm the MAQAR Assistant. How can I help you today?`, 'bot'), 350);
+      }
+      setTimeout(() => input.focus(), 400);
+    };
+
+    const closePanel = () => {
+      isOpen = false;
+      panel.classList.remove('is-open');
+      panel.setAttribute('aria-hidden', 'true');
+      fab.setAttribute('aria-expanded', 'false');
+      fab.classList.remove('is-open');
+    };
+
+    fab.addEventListener('click', () => isOpen ? closePanel() : openPanel());
+    if (closeBtn) closeBtn.addEventListener('click', closePanel);
+
+    // Quick-reply buttons
+    if (quickBtns) {
+      quickBtns.querySelectorAll('.chatbot-quick').forEach(btn => {
+        btn.addEventListener('click', () => sendMessage(btn.dataset.msg));
+      });
+    }
+
+    // Form submit
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        sendMessage(input.value);
+      });
+    }
+
+    // Close on Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && isOpen) closePanel();
+    });
+
+    // Show ping badge after 3 s to invite interaction
+    setTimeout(() => {
+      if (!greeted) {
+        const ping = fab.querySelector('.chatbot-fab-ping');
+        if (ping) ping.classList.add('is-visible');
+      }
+    }, 3000);
+  })();
+
 })();
