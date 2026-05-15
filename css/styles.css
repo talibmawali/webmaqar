@@ -156,10 +156,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   flex-shrink: 0;
   position: relative;
 }
-/* Brand stripe icon */
+/* Brand stripe icon (ham.svg loaded as <img>) */
 .nav-hamburger-icon {
-  width: 28px; height: 22px;
+  width: 32px; height: auto;
   display: block;
+  object-fit: contain;
   transition: opacity .28s var(--ease), transform .28s var(--ease);
   transform-origin: center;
 }
@@ -247,13 +248,13 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   opacity: 1;
   transform: translateX(0);
 }
-/* Staggered entry — each link slides in later than the previous */
-.nav-drawer.is-open a:nth-child(1) { transition-delay: .09s; }
-.nav-drawer.is-open a:nth-child(2) { transition-delay: .15s; }
-.nav-drawer.is-open a:nth-child(3) { transition-delay: .20s; }
-.nav-drawer.is-open a:nth-child(4) { transition-delay: .25s; }
-.nav-drawer.is-open a:nth-child(5) { transition-delay: .30s; }
-.nav-drawer.is-open a:nth-child(6) { transition-delay: .35s; }
+/* Staggered entry — child 1 is the close <button>, links are children 2-7 */
+.nav-drawer.is-open a:nth-child(2) { transition-delay: .10s; }
+.nav-drawer.is-open a:nth-child(3) { transition-delay: .17s; }
+.nav-drawer.is-open a:nth-child(4) { transition-delay: .24s; }
+.nav-drawer.is-open a:nth-child(5) { transition-delay: .31s; }
+.nav-drawer.is-open a:nth-child(6) { transition-delay: .38s; }
+.nav-drawer.is-open a:nth-child(7) { transition-delay: .45s; }
 
 /* Show hamburger, hide nav-links on mobile */
 @media (max-width: 720px) {
