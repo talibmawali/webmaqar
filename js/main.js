@@ -637,19 +637,162 @@ const MEDIA = {
     });
   }
 
+  /* ── Project translations (Arabic) ──────────────────────────
+     Keyed by the same English title that PROJ uses, so getProjLocalized()
+     can merge the two without renaming fields. */
+  const PROJ_AR = {
+    'Residence Al Khuwair': {
+      client: 'عميل خاص', year: '٢٠٢٤', location: 'الخوير، مسقط', size: '٤٨٠ م²', type: 'عمارة · سكني',
+      slides: [
+        { title: 'مسكن الخوير', para: 'مسكن عائلي معاصر يتجذّر في التقاليد المكانية العمانية. يوازن التصميم بين الخصوصية والانفتاح من خلال سلسلة من الأفنية المتشابكة التي تنظّم الضوء والهواء طوال اليوم.' },
+        { title: 'الكتل الداخلية', para: 'تتدفّق المساحات الداخلية بسلاسة من الاستقبال الرسمي إلى أماكن المعيشة الحميمة. مواد طبيعية — حجر جيري، خشب منحوت، ومنسوجات يدوية — ترسّخ الشكل المعاصر في الحرفة المحلية.' },
+        { title: 'المنظر والعتبة', para: 'تذوب الحدود بين الداخل والخارج عبر شُرفات مظلّلة وممرات مزروعة، فيتنفّس المسكن مع مناخ مسقط.' },
+      ],
+    },
+    'Brand Portal UI': {
+      client: 'عميل مؤسسي', year: '٢٠٢٥', location: 'مسقط، عُمان', size: 'منصة رقمية', type: 'رقمي · منصة إلكترونية',
+      slides: [
+        { title: 'واجهة بوابة العلامة', para: 'منصة رقمية مركزية تتيح لفِرق العلامة الوصول إلى أصول الهوية وإدارتها ونشرها بدقة. مبنية على نظام تصميم يفرض الاتساق في كل نقطة تواصل.' },
+        { title: 'نظام التصميم', para: 'يرسّخ النظام مقياسًا طباعيًا صارمًا وبنية لونية ومكتبة مكوّنات — بما يضمن سلامة العلامة عبر التطبيقات الرقمية والمادية.' },
+        { title: 'تجربة المستخدم', para: 'تم رسم كل تفاعل بعدسة الوضوح والسرعة. تُقلّل البوابة وقت استرداد الأصول بنسبة ٧٠٪، مما يمنح الفِرق الإبداعية وقتًا أكبر للعمل الجوهري.' },
+      ],
+    },
+    'Identity System Vol.1': {
+      client: 'علامة محلية', year: '٢٠٢٤', location: 'عُمان', size: 'هوية بصرية', type: 'جرافيك · هوية',
+      slides: [
+        { title: 'نظام الهوية — المجلد الأول', para: 'هوية بصرية شاملة تتجذّر في التقاليد الهندسية العمانية. يُستمدّ الرمز من العناصر المعمارية في الحصون العمانية، يُختزل في رمز معاصر.' },
+        { title: 'الطباعة واللون', para: 'نظام طباعي ثنائي اللغة يجمع بين خط جروتيسك حديث وخط عربي مصقول، بما يضمن تخاطب الهوية الجمهور المحلي والدولي بالقدر نفسه.' },
+        { title: 'التطبيقات', para: 'مُطبَّق عبر المطبوعات والإشارات والتغليف والوسائط الرقمية — يثبت التنوع مع الحفاظ على اتساق بصري صارم على كل مقياس.' },
+      ],
+    },
+    'The Courtyard House': {
+      client: 'عميل خاص', year: '٢٠٢٣', location: 'مسقط، عُمان', size: '٦٢٠ م²', type: 'عمارة · سكني',
+      slides: [
+        { title: 'بيت الفناء', para: 'مستوحى من الدار العمانية التقليدية، ينظّم هذا المسكن المساحات حول فناء مركزي يصبح قلب الحياة العائلية — ملاذٌ مظلّل ومزروع من حرارة الصحراء.' },
+        { title: 'التسلسل المكاني', para: 'ينتقل الزوار عبر سلسلة من المساحات الأكثر حميمية، كلٌّ منها مؤطَّر بالفناء. الرحلة من العام إلى الخاص ترسم بهدوء ودقة.' },
+        { title: 'صدق المواد', para: 'جدران حاملة من الحجر، أسقف خرسانية مكشوفة، وستائر خشبية يدوية — كل مادة تُستخدم بأمانة، احتفاءً بخصائصها الجوهرية.' },
+      ],
+    },
+    '3D Visualization Suite': {
+      client: 'أداة داخلية', year: '٢٠٢٥', location: 'مسقط، عُمان', size: 'رقمي', type: 'رقمي · أدوات',
+      slides: [
+        { title: 'حزمة التصور ثلاثي الأبعاد', para: 'خط أنابيب تصوّر مخصّص طُوِّر داخليًا لإنتاج صور واقعية للمشاريع المعمارية والداخلية، مدمج بسلاسة مع سير عمل تصميم الاستوديو.' },
+        { title: 'جودة العرض', para: 'باستخدام عرض قائم على الفيزياء ومكتبات مواد من العالم الحقيقي، تنتج الحزمة صورًا تُترجم النسيج والضوء والمادية بدقة استثنائية.' },
+        { title: 'تكامل سير العمل', para: 'تتصل الحزمة مباشرة ببيئة BIM في الاستوديو، مما يُلغي الإعداد اليدوي للنموذج ويختصر زمن تسليم التصور من أيام إلى ساعات.' },
+      ],
+    },
+    'Exhibition Catalog': {
+      client: 'مؤسسة ثقافية', year: '٢٠٢٤', location: 'مسقط، عُمان', size: '١٢٨ صفحة', type: 'جرافيك · طباعة',
+      slides: [
+        { title: 'كتالوج المعرض', para: 'كتالوج مطبوع يوثّق معرضًا كبيرًا من الفن والتصميم العماني المعاصر. توازن المطبوعة بين التصميم التحريري الصارم والمساحة البيضاء السخية التي تتيح للأعمال أن تتنفّس.' },
+        { title: 'التصميم التحريري', para: 'نظام شبكي مرن يستوعب صيغ أعمال متنوعة — من الرسومات الحميمة إلى التركيبات الكبيرة — مع الحفاظ على إيقاع بصري متماسك عبر ١٢٨ صفحة.' },
+        { title: 'الإنتاج', para: 'مطبوع على ورق غير مطلي مع تفاصيل دهان موضعي، يصبح الكتالوج ذاته كائنًا من حرفة — تحفة مادية جديرة بالأفكار التي يوثّقها.' },
+      ],
+    },
+    'Pavilion 07': {
+      client: 'هيئة ثقافية', year: '٢٠٢٥', location: 'مسقط، عُمان', size: '١٢٠٠ م²', type: 'عمارة · ثقافي',
+      slides: [
+        { title: 'الجناح ٠٧', para: 'جناح ثقافي مؤقت مُصمَّم كبيان معماري جريء. شكله المستوحى من الأوريغامي يطوي الفولاذ والزجاج في بنية تبدو راسخة ومحلّقة في آن واحد.' },
+        { title: 'البنية والقشرة', para: 'شبكة فولاذية خفيفة الوزن تحمل واجهة من ألواح معدنية مطوية، كل لوحٍ مائل ليلتقط ويعكس ضوء صحراء مسقط الشديد بشكل مختلف على مدار اليوم.' },
+        { title: 'التجربة الداخلية', para: 'من الداخل، مساحة واحدة سائلة تستضيف المعارض والعروض والتجمعات العامة — مكان ديمقراطي يدعو كل عُمان للمشاركة في الحياة الثقافية.' },
+      ],
+    },
+    'Interactive Space': {
+      client: 'عميل ثقافي', year: '٢٠٢٤', location: 'مسقط، عُمان', size: 'تركيب', type: 'رقمي · تركيب',
+      slides: [
+        { title: 'فضاء تفاعلي', para: 'تركيب رقمي يستجيب لحركة الزوار عبر مستشعرات، يُترجم الحضور الجسدي إلى أنماط ضوء وصوت مستوحاة من تقاليد النسيج العمانية.' },
+        { title: 'طبقة التقنية', para: 'كاميرات عمق وبرامج مخصّصة تتتبّع مسارات الزوار في الزمن الحقيقي، وتُسقط الحركة على مرئيات توليدية تظهر على الجدران والأرض والسقف.' },
+        { title: 'الترجمة الثقافية', para: 'تُبذَر الخوارزميات الأساسية بأنماط مأخوذة من أرشيف المنسوجات العمانية — لتجعل حرفة التراث المرئية بلغةٍ تخاطب جميع الأجيال.' },
+      ],
+    },
+    'Wayfinding System': {
+      client: 'مؤسسة عامة', year: '٢٠٢٤', location: 'عُمان', size: 'بيئي', type: 'جرافيك · بيئي',
+      slides: [
+        { title: 'نظام التوجيه', para: 'نظام شامل للإشارة والتوجيه يقود الزوار بشكل بديهي عبر التسلسلات المكانية المعقّدة مع تعزيز الهوية البصرية للمؤسسة في كل منعطف.' },
+        { title: 'تصنيفات الإشارة', para: 'سبعة أنواع من الإشارات — من المسلّات الضخمة إلى الأدلّة الأرضية اللمسية — تغطي كل سيناريو توجيه، ومُصمَّمة للتصنيع والتركيب بكفاءة على نطاق واسع.' },
+        { title: 'التنقل ثنائي اللغة', para: 'تُعامل العربية والإنجليزية بوزن طباعي متساوٍ، لضمان أن يخدم النظام جميع المستخدمين بوضوح وكرامة متساوية عبر العقار بأكمله.' },
+      ],
+    },
+    'Salalah Apartment': {
+      client: 'عميل خاص', year: '٢٠٢٤', location: 'صلالة، عُمان', size: '٢١٠ م²', type: 'داخلي · سكني',
+      slides: [
+        { title: 'شقة صلالة', para: 'تصميم داخلي سكني صُمّم لالتقاط الطابع الأخضر النضِر لصلالة. مواد طبيعية ولوحة لونية باردة تخلق ملاذًا يستجيب لبيئتها الساحلية الموسمية.' },
+        { title: 'مساحات المعيشة', para: 'مناطق المعيشة وتناول الطعام ذات المخطط المفتوح متّصلة بمحور مركزي يؤطّر المناظر إلى المساحات الخضراء خارجًا، مع أثاث مختار لتشجيع الحوار والراحة بالقدر نفسه.' },
+        { title: 'التفصيل والحرفة', para: 'أنتج الحرفيون المحليون الستائر الخشبية المنحوتة، والمنسوجات اليدوية، والآنية الخزفية التي تمنح الشقة طابعها العماني المميّز.' },
+      ],
+    },
+    'Atelier Workspace': {
+      client: 'استوديو إبداعي', year: '٢٠٢٥', location: 'مسقط، عُمان', size: '٣٤٠ م²', type: 'داخلي · استوديو',
+      slides: [
+        { title: 'مساحة الأتيليه', para: 'مساحة عمل لاستوديو إبداعي مُصمَّمة للإلهام دون تشتيت. يخلق التصميم مناطق للعمل الفردي المركّز، والاجتماعات التعاونية، وعرض العملاء داخل لغة واحدة متماسكة.' },
+        { title: 'لوحة المواد', para: 'أرضيات خرسانية دافئة، جدران جص بيضاء، وإطارات فولاذية سوداء مكشوفة تخلق لوحة مواد صادقة تتيح لأعمال شاغليها أن تكون في الواجهة.' },
+        { title: 'المرونة', para: 'جدران فاصلة متحركة ونظام أثاث معياري يسمحان للاستوديو بالتحوّل من مخطط مفتوح لـ ١٢ شخصًا إلى ثلاث غرف مشاريع خاصة في أقل من ساعة.' },
+      ],
+    },
+    'Hospitality Suite': {
+      client: 'مجموعة ضيافة', year: '٢٠٢٥', location: 'مسقط، عُمان', size: '٥٨٠ م²', type: 'داخلي · ضيافة',
+      slides: [
+        { title: 'جناح الضيافة', para: 'جناح ضيافة فاخر يعيد تعريف تجربة الضيف عبر عدسة الكرم العماني. مساحات الوصول والاستراحة وتناول الطعام والاستحمام، كلٌّ منها يُمنح وزنه الاحتفالي الكامل.' },
+        { title: 'تسلسل الوصول', para: 'تبدأ رحلة الضيف عند مدخلٍ درامي يكشف، عبر سلسلة من لحظات العتبة، الدراما المكانية الكاملة للجناح — لا شيء يُكشف دفعة واحدة.' },
+        { title: 'الفخامة في التفاصيل', para: 'أثاث مفصّل، أرضيات فسيفساء مرصوفة يدويًا، وإضاءة مخصّصة — كلها أُنتجت بأيدي حرفيين عمانيين — تجعل هذا الجناح عرضًا لما تعنيه الفخامة العمانية في القرن الحادي والعشرين.' },
+      ],
+    },
+  };
+
+  const PROJ_LABELS = {
+    en: { client: 'Client', type: 'Type', location: 'Location', size: 'Size', year: 'Year' },
+    ar: { client: 'العميل', type: 'النوع', location: 'الموقع', size: 'المساحة', year: 'السنة' },
+  };
+
+  const currentLang = () => (document.documentElement.getAttribute('lang') === 'ar' ? 'ar' : 'en');
+
+  /** Merge English defaults with Arabic overrides for the current lang. */
+  function getLocalizedProj(key) {
+    const base = PROJ[key];
+    if (!base) return null;
+    if (currentLang() !== 'ar') return base;
+    const ar = PROJ_AR[key];
+    if (!ar) return base;
+    return {
+      ...base,
+      client:   ar.client   ?? base.client,
+      year:     ar.year     ?? base.year,
+      location: ar.location ?? base.location,
+      size:     ar.size     ?? base.size,
+      type:     ar.type     ?? base.type,
+      slides:   base.slides.map((s, i) => ({
+        title: ar.slides?.[i]?.title ?? s.title,
+        para:  ar.slides?.[i]?.para  ?? s.para,
+      })),
+    };
+  }
+
   function buildLeft(proj) {
+    const L = PROJ_LABELS[currentLang()];
     projLeft.innerHTML = `
-      <div class="proj-detail"><span class="proj-detail-label">Client</span><span class="proj-detail-value">${proj.client}</span></div>
-      <div class="proj-detail"><span class="proj-detail-label">Type</span><span class="proj-detail-value">${proj.type}</span></div>
-      <div class="proj-detail"><span class="proj-detail-label">Location</span><span class="proj-detail-value">${proj.location}</span></div>
-      <div class="proj-detail"><span class="proj-detail-label">Size</span><span class="proj-detail-value">${proj.size}</span></div>
-      <div class="proj-detail"><span class="proj-detail-label">Year</span><span class="proj-detail-value">${proj.year}</span></div>`;
+      <div class="proj-detail"><span class="proj-detail-label">${L.client}</span><span class="proj-detail-value">${proj.client}</span></div>
+      <div class="proj-detail"><span class="proj-detail-label">${L.type}</span><span class="proj-detail-value">${proj.type}</span></div>
+      <div class="proj-detail"><span class="proj-detail-label">${L.location}</span><span class="proj-detail-value">${proj.location}</span></div>
+      <div class="proj-detail"><span class="proj-detail-label">${L.size}</span><span class="proj-detail-value">${proj.size}</span></div>
+      <div class="proj-detail"><span class="proj-detail-label">${L.year}</span><span class="proj-detail-value">${proj.year}</span></div>`;
   }
 
   function updateRight() {
     const s = projData.slides[projSlide];
     projRight.innerHTML = `<h3 class="proj-slide-title">${s.title}</h3><p class="proj-slide-para">${s.para}</p>`;
   }
+
+  /* Re-render the open modal when the language changes mid-view. */
+  document.addEventListener('maqarlangchange', () => {
+    if (!projModal.classList.contains('is-open') || !projData) return;
+    const key = projData.title;
+    projData = getLocalizedProj(key);
+    if (!projData) return;
+    projData.title = key;
+    buildSlides(projData);
+    buildLeft(projData);
+    updateRight();
+  });
 
   function updateCounter() {
     projCounterCur.textContent = String(projSlide + 1).padStart(2,'0');
@@ -669,7 +812,7 @@ const MEDIA = {
     // doesn't break the PROJ lookup.
     const h3   = card.querySelector('h3');
     const key  = card.dataset.projKey || (h3 ? h3.textContent.trim() : '');
-    projData   = PROJ[key];
+    projData   = getLocalizedProj(key);
     if (!projData) return;
     projData.title = key;   // store key so buildSlides can look up MEDIA
 
@@ -1802,6 +1945,10 @@ const MEDIA = {
 
       /* 6 — Persist */
       try { localStorage.setItem('maqar-lang', lang); } catch (_) {}
+
+      /* 7 — Notify other modules (e.g. open project modal) so they can
+              re-render their content in the new language. */
+      document.dispatchEvent(new CustomEvent('maqarlangchange', { detail: { lang } }));
     };
 
     /* ── Toggle on click ─────────────────────────────────────── */
