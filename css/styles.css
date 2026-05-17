@@ -2601,3 +2601,84 @@ html[dir="rtl"] .chatbot-quick-btns { direction: rtl; }
 html[dir="rtl"] .chatbot-input-row  { direction: rtl; }
 html[dir="rtl"] .chatbot-msg--bot .chatbot-msg-bubble { text-align: right; }
 html[dir="rtl"] .chatbot-msg--user .chatbot-msg-bubble { text-align: right; }
+
+/* ============================================================
+   RTL POLISH — explicit right alignment for headings, tabs,
+   bullets, tags so the Arabic layout reads cleanly mirrored.
+   ============================================================ */
+html[dir="rtl"] {
+  /* Section headings — force right side regardless of inherited centering */
+  /* (max-width still respected; just align to the right edge) */
+}
+html[dir="rtl"] .about-heading,
+html[dir="rtl"] .about-body,
+html[dir="rtl"] .work-heading,
+html[dir="rtl"] .services-heading,
+html[dir="rtl"] .careers-heading,
+html[dir="rtl"] .careers-sub,
+html[dir="rtl"] .contact-heading,
+html[dir="rtl"] .ach-header .section-title,
+html[dir="rtl"] .quote-tagline,
+html[dir="rtl"] .quote-text {
+  text-align: right;
+  direction: rtl;
+}
+
+/* Eyebrow: number+label sits on the right, accent rule trails on its left */
+html[dir="rtl"] .about-eyebrow,
+html[dir="rtl"] .section-eyebrow {
+  direction: rtl;
+  text-align: right;
+}
+
+/* About pillars: bullet cells stack right-aligned */
+html[dir="rtl"] .about-pillars {
+  justify-items: end;
+}
+html[dir="rtl"] .about-pillars li {
+  text-align: right;
+  align-items: flex-end;
+}
+
+/* Work tabs: active indicator + scroll behaviour read RTL */
+html[dir="rtl"] .work-tabs { direction: rtl; }
+html[dir="rtl"] .tab { text-align: right; }
+
+/* Work cards: number badge moves to the right corner; meta hugs the right */
+html[dir="rtl"] .card { direction: rtl; }
+html[dir="rtl"] .card-meta { text-align: right; }
+html[dir="rtl"] .card-num {
+  left: auto;
+  right: clamp(14px, 1.4vw, 22px);
+}
+
+/* Services tags: keep the 01/02 number visually leading the line on the right */
+html[dir="rtl"] .service-list   { direction: rtl; }
+html[dir="rtl"] .service-info   { text-align: right; }
+
+/* Career panels: number + arrow swap corners */
+html[dir="rtl"] .career-panel { direction: rtl; }
+html[dir="rtl"] .career-panel-num { text-align: right; }
+html[dir="rtl"] .career-panel-arrow {
+  right: auto;
+  left: clamp(28px, 4vw, 48px);
+}
+html[dir="rtl"] .career-panel h3,
+html[dir="rtl"] .career-panel p { text-align: right; }
+
+/* Client marquee runs naturally left-to-right; reverse so it reads RTL */
+html[dir="rtl"] .client-marquee-track { animation-direction: reverse; }
+
+/* Hamburger / nav-drawer-close stay anchored consistently */
+html[dir="rtl"] .nav-drawer-close {
+  right: auto;
+  left: var(--pad-x);
+}
+
+/* Career modal — labels and submit button align right */
+html[dir="rtl"] .career-modal-inner { direction: rtl; text-align: right; }
+html[dir="rtl"] .career-form label  { text-align: right; }
+html[dir="rtl"] .career-modal-close {
+  right: auto;
+  left: 18px;
+}

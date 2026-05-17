@@ -665,8 +665,10 @@ const MEDIA = {
   }
 
   function openModal(card) {
+    // Prefer the stable data-proj-key so translated card text (e.g. Arabic)
+    // doesn't break the PROJ lookup.
     const h3   = card.querySelector('h3');
-    const key  = h3 ? h3.textContent.trim() : '';
+    const key  = card.dataset.projKey || (h3 ? h3.textContent.trim() : '');
     projData   = PROJ[key];
     if (!projData) return;
     projData.title = key;   // store key so buildSlides can look up MEDIA
